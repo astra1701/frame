@@ -20,7 +20,6 @@
 		...props
 	}: Props = $props();
 
-	// Calculate percentage for the fill bar
 	let percentage = $derived(((value - min) / (max - min)) * 100);
 </script>
 

@@ -7,6 +7,14 @@ use window_vibrancy::apply_mica;
 #[cfg(target_os = "macos")]
 use window_vibrancy::{NSVisualEffectMaterial, apply_vibrancy};
 
+#[tauri::command]
+async fn close_splash(window: tauri::Window) {
+    if let Some(splash) = window.get_webview_window("splash") {
+        splash.close().unwrap();
+    }
+    window.get_webview_window("main").unwrap().show().unwrap();
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -18,7 +26,8 @@ pub fn run() {
                     .min_inner_size(1200.0, 800.0)
                     .resizable(true)
                     .fullscreen(false)
-                    .decorations(false);
+                    .decorations(false)
+                    .visible(false);
 
             #[cfg(target_os = "macos")]
             {
@@ -40,6 +49,25 @@ pub fn run() {
             apply_mica(&window, Some(true))
                 .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
 
+            let splash = WebviewWindowBuilder::new(app, "splash", WebviewUrl::App("splash".into()))
+                .title("Splash")
+                .inner_size(300.0, 300.0)
+                .resizable(false)
+                .decorations(false)
+                .always_on_top(true)
+                .transparent(true)
+                .visible(false)
+                .build()
+                .unwrap();
+
+            #[cfg(target_os = "macos")]
+            apply_vibrancy(&splash, NSVisualEffectMaterial::HudWindow, None, Some(16.0))
+                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
+
+            #[cfg(target_os = "windows")]
+            apply_mica(&splash, Some(true))
+                .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
+
             app.manage(conversion::ConversionManager::new(app.handle().clone()));
 
             Ok(())
@@ -56,7 +84,8 @@ pub fn run() {
             conversion::probe_media,
             conversion::get_max_concurrency,
             conversion::set_max_concurrency,
-            estimation::estimate_output
+            estimation::estimate_output,
+            close_splash
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

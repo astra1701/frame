@@ -3,6 +3,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { open } from '@tauri-apps/plugin-dialog';
 	import { stat } from '@tauri-apps/plugin-fs';
+	import { invoke } from '@tauri-apps/api/core';
 
 	import Titlebar from '$lib/components/Titlebar.svelte';
 	import LogsView from '$lib/components/LogsView.svelte';
@@ -52,6 +53,10 @@
 		} catch (error) {
 			console.error('Failed to load concurrency settings', error);
 		}
+
+		setTimeout(() => {
+			invoke('close_splash');
+		}, 1000);
 	});
 
 	function createInitialConfig(): ConversionConfig {
