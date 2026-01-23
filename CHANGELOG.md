@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-beta.4] - 2026-01-23
+
+### Added
+
+- **Hardware Acceleration UX:** Added a dedicated quality slider (1-100) for Hardware Encoders (VideoToolbox, NVENC) which now correctly maps to native quality flags (`-q:v`, `-cq:v`) instead of CRF.
+- **Smart Codec Filtering:** The application now intelligently hides hardware codecs not supported by the user's operating system (e.g., hiding NVENC on macOS).
+
+### Removed
+
+- **Estimation:** Removed the estimated output size panel. Given the complexity of hardware encoding prediction, this feature was removed to prioritize UI simplicity and honesty over potentially inaccurate guesses.
+
+### Changed
+
+- **UI:** Updated scrollbar styling to better integrate with the application theme.
+
 ## [0.2.0-beta.3] - 2026-01-23
 
 ### Added
