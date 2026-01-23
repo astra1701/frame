@@ -118,7 +118,7 @@
 		</button>
 	</div>
 
-	<div class="max-h-52 space-y-1.5 overflow-y-auto">
+	<div class="space-y-1.5">
 		{#each presets as preset (preset.id)}
 			<div
 				class={cn(
@@ -141,7 +141,7 @@
 					class="pointer-events-none flex flex-1 items-center justify-between gap-2 text-[11px] tracking-tight uppercase"
 				>
 					<span class="truncate">{preset.name}</span>
-					<span class="text-[9px] font-semibold">
+					<span class="text-[9px] font-medium">
 						{configsMatch(config, preset.config) ? 'APPLIED' : 'APPLY'}
 					</span>
 				</span>
