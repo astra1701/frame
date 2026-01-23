@@ -215,6 +215,11 @@
 	}
 
 	function handleRemoveFile(id: string) {
+		const file = files.find((f) => f.id === id);
+		if (file && (file.status === FileStatus.CONVERTING || file.status === FileStatus.QUEUED)) {
+			return;
+		}
+
 		files = files.filter((f) => f.id !== id);
 		if (selectedFileId === id) selectedFileId = null;
 
@@ -360,6 +365,7 @@
 								onSavePreset={handleSavePreset}
 								onDeletePreset={handleDeletePreset}
 								disabled={selectedFile.status === FileStatus.CONVERTING ||
+									selectedFile.status === FileStatus.QUEUED ||
 									selectedFile.status === FileStatus.COMPLETED}
 								maxConcurrency={maxConcurrencySetting}
 								onUpdateMaxConcurrency={handleUpdateMaxConcurrency}

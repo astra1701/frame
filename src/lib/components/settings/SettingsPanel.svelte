@@ -69,7 +69,7 @@
 					class={cn(
 						'text-[10px] font-medium tracking-widest uppercase transition-all',
 						activeTab === tab.id ? 'text-ds-blue-600' : 'text-gray-alpha-600 hover:text-foreground',
-						isVideoDisabled && 'cursor-not-allowed opacity-50'
+						isVideoDisabled && 'pointer-events-none opacity-50'
 					)}
 					onclick={() => (activeTab = tab.id)}
 				>
