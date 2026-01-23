@@ -66,7 +66,7 @@ jobs:
         if: runner.os == 'macOS' && steps.cache-ffmpeg.outputs.cache-hit != 'true'
         run: |
           mkdir -p src-tauri/binaries
-          
+
           if [ "${{ matrix.arch }}" = "x86_64" ]; then
             # Download Intel binaries
             curl -L -o ffmpeg.zip https://ffmpeg.martin-riedl.de/redirect/latest/macos/amd64/release/ffmpeg.zip
@@ -76,19 +76,19 @@ jobs:
             curl -L -o ffmpeg.zip https://ffmpeg.martin-riedl.de/redirect/latest/macos/arm64/release/ffmpeg.zip
             curl -L -o ffprobe.zip https://ffmpeg.martin-riedl.de/redirect/latest/macos/arm64/release/ffprobe.zip
           fi
-          
+
           # Unzip and move binaries
           # The zip usually contains the binary directly
           unzip -o ffmpeg.zip
           unzip -o ffprobe.zip
-          
+
           # Move and rename
           mv ffmpeg src-tauri/binaries/ffmpeg-${{ matrix.arch }}-apple-darwin
           mv ffprobe src-tauri/binaries/ffprobe-${{ matrix.arch }}-apple-darwin
-          
+
           # Cleanup
           rm ffmpeg.zip ffprobe.zip
-          
+
           # Make executable
           chmod +x src-tauri/binaries/ffmpeg-${{ matrix.arch }}-apple-darwin
           chmod +x src-tauri/binaries/ffprobe-${{ matrix.arch }}-apple-darwin
@@ -97,7 +97,7 @@ jobs:
         if: runner.os == 'Linux' && steps.cache-ffmpeg.outputs.cache-hit != 'true'
         run: |
           mkdir -p src-tauri/binaries
-          
+
           # Ensure unzip is available
           sudo apt-get update && sudo apt-get install -y unzip
 

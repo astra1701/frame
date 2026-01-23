@@ -22,7 +22,8 @@
 
 	const availableCodecs = ALL_VIDEO_CODECS.filter((codec) => {
 		if (codec.id === 'h264_videotoolbox') return currentPlatform === 'macos';
-		if (codec.id === 'h264_nvenc') return currentPlatform === 'windows' || currentPlatform === 'linux';
+		if (codec.id === 'h264_nvenc')
+			return currentPlatform === 'windows' || currentPlatform === 'linux';
 		return true;
 	});
 
@@ -247,7 +248,7 @@
 					/>
 				{/if}
 			</div>
-			<div class="flex justify-between text-[9px] uppercase text-gray-alpha-600">
+			<div class="text-gray-alpha-600 flex justify-between text-[9px] uppercase">
 				{#if isHardwareEncoder}
 					<span>Low Quality</span>
 					<span>Best Quality</span>

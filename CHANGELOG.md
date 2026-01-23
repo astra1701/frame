@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-23
+
+### Added
+
+- **Drag & Drop:** Support for dragging files directly into the application window with a visual overlay.
+- **Hardware Acceleration:** Enhanced support for Apple VideoToolbox and NVIDIA NVENC with dedicated quality sliders (1-100).
+- **Smart Codec Filtering:** Intelligently hides hardware codecs not supported by the user's OS.
+- **Cross-Platform Support:** Official builds for Windows (x64), Linux (x64/arm64), and macOS (Intel).
+- **Native Experience:** Implemented global tab-key blocking and focus ring removal for a native application feel.
+- **Splash Screen:** Added a polished startup splash screen.
+- **Global Settings:** New "App" tab for configuring parameters like Max Concurrency.
+
+### Changed
+
+- **Architecture:** Major refactoring of the frontend into modular, reusable components (Svelte 5 Runes).
+- **License:** Project re-licensed to GPLv3.
+
+### Fixed
+
+- **Windows UI:** Resolved window dragging artifacts and transparency issues.
+- **Input Validation:** Numeric fields now strictly reject non-digit input.
+
 ## [0.2.0-beta.4] - 2026-01-23
 
 ### Added
@@ -14,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- **Estimation:** Removed the estimated output size panel. Given the complexity of hardware encoding prediction, this feature was removed to prioritize UI simplicity and honesty over potentially inaccurate guesses.
+- **Estimation:** Removed the estimated output size panel to prioritize UI simplicity.
 
 ### Changed
 
@@ -80,7 +102,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic media metadata probing via FFprobe.
 - Preset-based configuration system.
 
-[Unreleased]: https://github.com/66HEX/frame/compare/0.2.0-beta.2...HEAD
+[Unreleased]: https://github.com/66HEX/frame/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/66HEX/frame/compare/0.2.0-beta.4...0.2.0
+[0.2.0-beta.4]: https://github.com/66HEX/frame/compare/0.2.0-beta.3...0.2.0-beta.4
+[0.2.0-beta.3]: https://github.com/66HEX/frame/compare/0.2.0-beta.2...0.2.0-beta.3
 [0.2.0-beta.2]: https://github.com/66HEX/frame/compare/0.2.0-beta.1...0.2.0-beta.2
 [0.2.0-beta.1]: https://github.com/66HEX/frame/compare/0.1.0...0.2.0-beta.1
 [0.1.0]: https://github.com/66HEX/frame/releases/tag/0.1.0
