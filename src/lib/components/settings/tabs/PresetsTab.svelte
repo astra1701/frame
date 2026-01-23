@@ -83,7 +83,7 @@
 
 <div class="space-y-3">
 	<div class="flex items-center justify-between border-b border-gray-alpha-100 pb-1">
-		<span class="text-gray-alpha-600 text-[10px] tracking-widest uppercase">Preset Library</span>
+		<span class="text-gray-alpha-600 text-[10px] tracking-wide uppercase">Preset Library</span>
 		{#if notice}
 			<span
 				class={cn(
@@ -138,10 +138,10 @@
 				}}
 			>
 				<span
-					class="pointer-events-none flex flex-1 items-center justify-between gap-2 text-[11px] tracking-tight uppercase"
+					class="pointer-events-none flex flex-1 items-center justify-between gap-2 text-[11px] font-medium tracking-wide uppercase"
 				>
 					<span class="truncate">{preset.name}</span>
-					<span class="text-[9px] font-medium">
+					<span class="text-[9px]">
 						{configsMatch(config, preset.config) ? 'APPLIED' : 'APPLY'}
 					</span>
 				</span>

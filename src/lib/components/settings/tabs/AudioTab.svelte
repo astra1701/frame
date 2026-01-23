@@ -126,7 +126,7 @@
 								<span class="text-[10px] opacity-70">
 									#{track.index}
 								</span>
-								<span class="text-[10px] font-bold tracking-tight uppercase">
+								<span class="text-[10px] font-bold tracking-wide uppercase">
 									{track.codec}
 								</span>
 								<div class="text-[9px] tracking-wide uppercase">
