@@ -2,10 +2,6 @@ mod conversion;
 use tauri::window::Color;
 use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_store::Builder as StoreBuilder;
-#[cfg(target_os = "windows")]
-use window_vibrancy::apply_acrylic;
-#[cfg(target_os = "macos")]
-use window_vibrancy::{NSVisualEffectMaterial, apply_vibrancy};
 
 #[tauri::command]
 async fn close_splash(window: tauri::Window) {
@@ -14,6 +10,32 @@ async fn close_splash(window: tauri::Window) {
     }
     window.get_webview_window("main").unwrap().show().unwrap();
 }
+
+#[cfg(target_os = "macos")]
+fn apply_window_effect(window: &tauri::WebviewWindow) {
+    use tauri::window::{Effect, EffectsBuilder};
+
+    window
+        .set_effects(
+            EffectsBuilder::new()
+                .effect(Effect::HudWindow)
+                .radius(16.0)
+                .build(),
+        )
+        .expect("Unsupported platform! 'HudWindow' effect is only supported on macOS");
+}
+
+#[cfg(target_os = "windows")]
+fn apply_window_effect(window: &tauri::WebviewWindow) {
+    use tauri::window::{Effect, EffectsBuilder};
+
+    window
+        .set_effects(EffectsBuilder::new().effect(Effect::Acrylic).build())
+        .expect("Unsupported platform! 'Acrylic' effect is only supported on Windows");
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "windows")))]
+fn apply_window_effect(_window: &tauri::WebviewWindow) {}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -35,13 +57,7 @@ pub fn run() {
 
             let window = builder.build().unwrap();
 
-            #[cfg(target_os = "macos")]
-            apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, Some(16.0))
-                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
-
-            #[cfg(target_os = "windows")]
-            apply_acrylic(&window, None)
-                .expect("Unsupported platform! 'acrylic' is only supported on Windows");
+            apply_window_effect(&window);
 
             let splash = WebviewWindowBuilder::new(app, "splash", WebviewUrl::App("splash".into()))
                 .title("Splash")
@@ -55,13 +71,7 @@ pub fn run() {
                 .build()
                 .unwrap();
 
-            #[cfg(target_os = "macos")]
-            apply_vibrancy(&splash, NSVisualEffectMaterial::HudWindow, None, Some(16.0))
-                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
-
-            #[cfg(target_os = "windows")]
-            apply_acrylic(&splash, None)
-                .expect("Unsupported platform! 'acrylic' is only supported on Windows");
+            apply_window_effect(&splash);
 
             app.manage(conversion::ConversionManager::new(app.handle().clone()));
 
