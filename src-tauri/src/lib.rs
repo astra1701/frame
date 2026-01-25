@@ -1,5 +1,5 @@
 mod conversion;
-use tauri::window::Color;
+use tauri::window::{Color, EffectState};
 use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_store::Builder as StoreBuilder;
 
@@ -19,6 +19,7 @@ fn apply_window_effect(window: &tauri::WebviewWindow) {
         .set_effects(
             EffectsBuilder::new()
                 .effect(Effect::HudWindow)
+                .state(EffectState::Active)
                 .radius(16.0)
                 .build(),
         )
