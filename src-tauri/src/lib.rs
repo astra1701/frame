@@ -2,7 +2,7 @@ mod conversion;
 use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_store::Builder as StoreBuilder;
 #[cfg(target_os = "windows")]
-use window_vibrancy::apply_mica;
+use window_vibrancy::apply_acrylic;
 #[cfg(target_os = "macos")]
 use window_vibrancy::{NSVisualEffectMaterial, apply_vibrancy};
 
@@ -47,8 +47,8 @@ pub fn run() {
                 .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
 
             #[cfg(target_os = "windows")]
-            apply_mica(&window, Some(true))
-                .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
+            apply_acrylic(&window, None)
+                .expect("Unsupported platform! 'acrylic' is only supported on Windows");
 
             let splash = WebviewWindowBuilder::new(app, "splash", WebviewUrl::App("splash".into()))
                 .title("Splash")
@@ -66,8 +66,8 @@ pub fn run() {
                 .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
 
             #[cfg(target_os = "windows")]
-            apply_mica(&splash, Some(true))
-                .expect("Unsupported platform! 'apply_mica' is only supported on Windows");
+            apply_acrylic(&splash, None)
+                .expect("Unsupported platform! 'acrylic' is only supported on Windows");
 
             app.manage(conversion::ConversionManager::new(app.handle().clone()));
 

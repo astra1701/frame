@@ -8,7 +8,7 @@ const WINDOW_OPACITY_KEY = 'windowOpacity';
 
 const DEFAULT_MAX_CONCURRENCY = 2;
 const DEFAULT_AUTO_UPDATE_CHECK = true;
-const DEFAULT_WINDOW_OPACITY = 70;
+const DEFAULT_WINDOW_OPACITY = 100;
 
 let storePromise: Promise<Store> | null = null;
 
