@@ -27,7 +27,11 @@
 		setupConversionListeners
 	} from '$lib/services/conversion';
 	import { probeMedia } from '$lib/services/media';
-	import { loadInitialMaxConcurrency, persistMaxConcurrency } from '$lib/services/settings';
+	import {
+		loadInitialMaxConcurrency,
+		persistMaxConcurrency,
+		loadAutoUpdateCheck
+	} from '$lib/services/settings';
 	import {
 		DEFAULT_PRESETS,
 		loadCustomPresets,
@@ -117,6 +121,9 @@
 	}
 
 	async function initUpdateCheck() {
+		const shouldCheck = await loadAutoUpdateCheck();
+		if (!shouldCheck) return;
+
 		try {
 			updateStore.isChecking = true;
 			const result = await checkForAppUpdate();

@@ -3,7 +3,10 @@ import { Store } from '@tauri-apps/plugin-store';
 
 const SETTINGS_STORE_PATH = 'app-settings.dat';
 const MAX_CONCURRENCY_KEY = 'maxConcurrency';
+const AUTO_UPDATE_CHECK_KEY = 'autoUpdateCheck';
+
 const DEFAULT_MAX_CONCURRENCY = 2;
+const DEFAULT_AUTO_UPDATE_CHECK = true;
 
 let storePromise: Promise<Store> | null = null;
 
@@ -11,7 +14,8 @@ async function getStore(): Promise<Store> {
 	if (!storePromise) {
 		storePromise = Store.load(SETTINGS_STORE_PATH, {
 			defaults: {
-				[MAX_CONCURRENCY_KEY]: DEFAULT_MAX_CONCURRENCY
+				[MAX_CONCURRENCY_KEY]: DEFAULT_MAX_CONCURRENCY,
+				[AUTO_UPDATE_CHECK_KEY]: DEFAULT_AUTO_UPDATE_CHECK
 			}
 		});
 	}
@@ -43,5 +47,26 @@ export async function persistMaxConcurrency(value: number): Promise<void> {
 	await invoke('set_max_concurrency', { value });
 	const store = await getStore();
 	await store.set(MAX_CONCURRENCY_KEY, value);
+	await store.save();
+}
+
+export async function loadAutoUpdateCheck(): Promise<boolean> {
+	try {
+		const store = await getStore();
+		const stored = await store.get<boolean>(AUTO_UPDATE_CHECK_KEY);
+
+		if (typeof stored === 'boolean') {
+			return stored;
+		}
+	} catch (error) {
+		console.error('Failed to load auto update check setting', error);
+	}
+
+	return DEFAULT_AUTO_UPDATE_CHECK;
+}
+
+export async function persistAutoUpdateCheck(value: boolean): Promise<void> {
+	const store = await getStore();
+	await store.set(AUTO_UPDATE_CHECK_KEY, value);
 	await store.save();
 }

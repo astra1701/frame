@@ -6,6 +6,9 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import { checkForAppUpdate } from '$lib/services/update';
 	import { updateStore } from '$lib/stores/update.svelte';
+	import Checkbox from './ui/Checkbox.svelte';
+	import { loadAutoUpdateCheck, persistAutoUpdateCheck } from '$lib/services/settings';
+	import { onMount } from 'svelte';
 
 	let {
 		maxConcurrency,
@@ -32,6 +35,15 @@
 	let isSaving = $state(false);
 	let isCheckingForUpdate = $state(false);
 	let checkStatus = $state('');
+	let autoUpdateCheck = $state(true);
+
+	onMount(async () => {
+		autoUpdateCheck = await loadAutoUpdateCheck();
+	});
+
+	$effect(() => {
+		persistAutoUpdateCheck(autoUpdateCheck);
+	});
 
 	async function handleSave() {
 		const parsed = Number(localValue.current);
@@ -88,8 +100,8 @@
 		</button>
 	</div>
 
-	<div class="space-y-6 p-4">
-		<div class="space-y-2">
+	<div class="space-y-4 p-4">
+		<div class="space-y-4">
 			<Label for="max-concurrency" variant="section">Max Concurrency</Label>
 			<div class="flex items-center gap-2">
 				<div class="flex-1">
@@ -119,20 +131,21 @@
 			</div>
 		</div>
 
-		<div class="space-y-2">
+		<div class="space-y-4">
 			<Label variant="section">App Updates</Label>
-			<div class="flex flex-col gap-2">
-				<Button
-					variant="outline"
-					class="w-full justify-start"
-					onclick={handleCheckUpdate}
-					disabled={isCheckingForUpdate}
-				>
-					{isCheckingForUpdate ? 'Checking...' : 'Check for Updates'}
-				</Button>
-				{#if checkStatus}
-					<span class="text-[10px] text-ds-blue-600">{checkStatus}</span>
-				{/if}
+			<div class="flex flex-col space-y-3">
+				<div class="flex items-center gap-2">
+					<Checkbox id="auto-update-check" bind:checked={autoUpdateCheck} />
+					<Label for="auto-update-check" class="">Check on startup</Label>
+				</div>
+				<div class="flex flex-col gap-2">
+					<Button variant="default" onclick={handleCheckUpdate} disabled={isCheckingForUpdate}>
+						{isCheckingForUpdate ? 'Checking...' : 'Check for Updates'}
+					</Button>
+					{#if checkStatus}
+						<span class="text-[10px] text-ds-blue-600">{checkStatus}</span>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</div>
