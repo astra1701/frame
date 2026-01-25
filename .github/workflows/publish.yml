@@ -102,14 +102,16 @@ jobs:
           # Ensure unzip is available
           sudo apt-get update && sudo apt-get install -y unzip
 
-          if [ "${{ matrix.arch }}" = "x86_64" ]; then
+          if [ "${{ matrix.arch }}" = "amd64" ]; then
             # Download Linux AMD64 binaries
             curl -L -o ffmpeg.zip https://ffmpeg.martin-riedl.de/redirect/latest/linux/amd64/release/ffmpeg.zip
             curl -L -o ffprobe.zip https://ffmpeg.martin-riedl.de/redirect/latest/linux/amd64/release/ffprobe.zip
-          elif [ "${{ matrix.arch }}" = "aarch64" ]; then
+            TARGET_ARCH="x86_64"
+          elif [ "${{ matrix.arch }}" = "arm64" ]; then
             # Download Linux ARM64 binaries
             curl -L -o ffmpeg.zip https://ffmpeg.martin-riedl.de/redirect/latest/linux/arm64/release/ffmpeg.zip
             curl -L -o ffprobe.zip https://ffmpeg.martin-riedl.de/redirect/latest/linux/arm64/release/ffprobe.zip
+            TARGET_ARCH="aarch64"
           fi
 
           # Unzip
@@ -117,15 +119,15 @@ jobs:
           unzip -o ffprobe.zip
 
           # Move and rename
-          mv ffmpeg src-tauri/binaries/ffmpeg-${{ matrix.arch }}-unknown-linux-gnu
-          mv ffprobe src-tauri/binaries/ffprobe-${{ matrix.arch }}-unknown-linux-gnu
+          mv ffmpeg src-tauri/binaries/ffmpeg-${TARGET_ARCH}-unknown-linux-gnu
+          mv ffprobe src-tauri/binaries/ffprobe-${TARGET_ARCH}-unknown-linux-gnu
 
           # Cleanup
           rm ffmpeg.zip ffprobe.zip
 
           # Make executable
-          chmod +x src-tauri/binaries/ffmpeg-${{ matrix.arch }}-unknown-linux-gnu
-          chmod +x src-tauri/binaries/ffprobe-${{ matrix.arch }}-unknown-linux-gnu
+          chmod +x src-tauri/binaries/ffmpeg-${TARGET_ARCH}-unknown-linux-gnu
+          chmod +x src-tauri/binaries/ffprobe-${TARGET_ARCH}-unknown-linux-gnu
 
       - name: Setup FFmpeg (Windows)
         if: matrix.platform == 'windows-latest' && steps.cache-ffmpeg.outputs.cache-hit != 'true'
