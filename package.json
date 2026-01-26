@@ -1,6 +1,6 @@
 {
 	"name": "frame",
-	"version": "0.3.3",
+	"version": "0.4.0",
 	"description": "",
 	"type": "module",
 	"scripts": {
@@ -11,7 +11,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"tauri": "tauri"
+		"tauri": "tauri",
+		"setup:binaries": "node scripts/setup-binaries.cjs"
 	},
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
@@ -42,6 +43,7 @@
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.14.0",
+		"extract-zip": "^2.0.1",
 		"globals": "^17.0.0",
 		"prettier": "^3.8.0",
 		"prettier-plugin-svelte": "^3.4.1",

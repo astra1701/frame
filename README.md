@@ -71,7 +71,20 @@
 - **State Management:** Svelte 5 `$state` / `$props`.
 - **Typography:** Geist Mono (embedded).
 
-## Installation
+### Installation
+
+#### via Homebrew (macOS)
+
+The easiest way to install and keep Frame updated on macOS is via our custom Homebrew Tap:
+
+```bash
+brew tap 66HEX/frame
+brew install --cask frame
+```
+
+### Use Prebuilt Releases
+
+The easiest way to run Frame is to grab a prebuilt package from the [GitHub Releases](https://github.com/66HEX/frame/releases) page. Each release ships builds for macOS (Intel/Apple Silicon), Windows, and Linux (AppImage/Deb). Keep in mind the binaries aren’t code-signed yet, so your OS may warn you and require manual approval.
 
 ### Prerequisites
 
@@ -80,10 +93,7 @@
 - **FFmpeg** and **FFprobe** binaries must be present in the `src-tauri/binaries/` directory.
   - Naming convention: `ffmpeg-<target-triple>` (e.g., `ffmpeg-aarch64-apple-darwin` or `ffmpeg-x86_64-pc-windows-msvc.exe`).
 
-> [!IMPORTANT]  
-> **Note for Developers:** Binaries in `src-tauri/binaries/` are now tracked via **Git LFS**.
-> As part of this migration, the repository history was rewritten to remove large files from the Git history, which **changed all previous commit hashes**.
-> Make sure you have [Git LFS](https://git-lfs.com/) installed and initialized (`git lfs install`) before working with these files. If you had a local clone before this change, you may need to re-clone the repository or perform a hard reset.
+> Tip: Run `bun run setup:binaries` (or `npm run setup:binaries`) to automatically download the correct binaries for your OS/architecture. Use `--force` to refresh existing downloads.
 
 ### Build Instructions
 
