@@ -209,9 +209,8 @@ jobs:
           VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
           # URLs for the newly published artifacts
-          # Note: Tauri v2 with productName "Frame" usually generates "Frame_...dmg"
-          URL_ARM="https://github.com/66HEX/frame/releases/download/v${VERSION}/Frame_${VERSION}_aarch64.dmg"
-          URL_INTEL="https://github.com/66HEX/frame/releases/download/v${VERSION}/Frame_${VERSION}_x64.dmg"
+          URL_ARM="https://github.com/66HEX/frame/releases/download/${VERSION}/Frame_${VERSION}_aarch64.dmg"
+          URL_INTEL="https://github.com/66HEX/frame/releases/download/${VERSION}/Frame_${VERSION}_x64.dmg"
 
           echo "Downloading artifacts for analysis..."
           echo "ARM: $URL_ARM"
@@ -247,7 +246,7 @@ jobs:
             sha256 arm:   "$HASH_ARM",
                    intel: "$HASH_INTEL"
 
-            url "https://github.com/66HEX/frame/releases/download/v#{version}/Frame_#{version}_#{arch}.dmg"
+            url "https://github.com/66HEX/frame/releases/download/#{version}/Frame_#{version}_#{arch}.dmg"
             name "Frame"
             desc "High-performance media conversion utility"
             homepage "https://github.com/66HEX/frame"
