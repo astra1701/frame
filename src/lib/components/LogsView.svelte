@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { FileStatus, type FileItem } from '$lib/types';
 	import { cn } from '$lib/utils/cn';
+	import { _ } from '$lib/i18n';
 
 	let {
 		logs,
@@ -64,7 +65,7 @@
 
 		{#if activeFiles.length === 0}
 			<span class="text-gray-alpha-600 text-[10px] font-medium tracking-widest uppercase">
-				No active processes
+				{$_('logs.noActiveProcesses')}
 			</span>
 		{/if}
 	</div>
@@ -103,7 +104,7 @@
 				class="text-gray-alpha-600 flex h-full flex-col items-center justify-center space-y-2 select-none"
 			>
 				<div class="text-[10px] font-medium tracking-widest uppercase">
-					Select a task to view console output
+					{$_('logs.selectTask')}
 				</div>
 			</div>
 		{/if}

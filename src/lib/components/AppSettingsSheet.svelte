@@ -15,6 +15,7 @@
 	} from '$lib/services/settings';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import { onMount } from 'svelte';
+	import { _, locale, setLocale, supportedLocales } from '$lib/i18n';
 
 	let {
 		maxConcurrency,
@@ -43,10 +44,17 @@
 	let checkStatus = $state('');
 	let autoUpdateCheck = $state(true);
 	let opacity = $state(themeStore.opacity);
+	let currentLocale = $state($locale || 'en-US');
 
 	onMount(async () => {
 		autoUpdateCheck = await loadAutoUpdateCheck();
 		opacity = themeStore.opacity;
+	});
+
+	$effect(() => {
+		if ($locale) {
+			currentLocale = $locale;
+		}
 	});
 
 	$effect(() => {
@@ -71,27 +79,21 @@
 	async function handleCheckUpdate() {
 		isCheckingForUpdate = true;
 		checkStatus = '';
-		try {
-			const result = await checkForAppUpdate();
-			if (result.available) {
-				updateStore.isAvailable = true;
-				updateStore.version = result.version || '';
-				updateStore.body = result.body || '';
-				updateStore.updateObject = result.updateObject;
-				updateStore.showDialog = true;
-				checkStatus = 'Update available!';
-			} else {
-				checkStatus = 'You are on the latest version.';
-			}
-		} catch (e) {
-			checkStatus = 'Error checking for updates.';
-			console.error(e);
-		} finally {
-			isCheckingForUpdate = false;
-			setTimeout(() => {
-				checkStatus = '';
-			}, 3000);
+		const result = await checkForAppUpdate();
+		if (result.available) {
+			updateStore.isAvailable = true;
+			updateStore.version = result.version || '';
+			updateStore.body = result.body || '';
+			updateStore.updateObject = result.updateObject;
+			updateStore.showDialog = true;
+			checkStatus = $_('settings.updateAvailable');
+		} else {
+			checkStatus = $_('settings.latestVersion');
 		}
+		isCheckingForUpdate = false;
+		setTimeout(() => {
+			checkStatus = '';
+		}, 3000);
 	}
 </script>
 
@@ -107,7 +109,7 @@
 	transition:fly={{ x: 320, duration: 300, opacity: 1 }}
 >
 	<div class="flex items-center justify-between border-b border-gray-alpha-100 px-4 py-3">
-		<h2 class="text-[10px] font-medium tracking-widest text-foreground uppercase">Settings</h2>
+		<h2 class="text-[10px] font-medium tracking-widest text-foreground uppercase">{$_('settings.title')}</h2>
 		<button onclick={onClose} class="text-gray-alpha-600 transition-colors hover:text-foreground">
 			<X size={16} />
 		</button>
@@ -115,7 +117,7 @@
 
 	<div class="space-y-4 p-4">
 		<div class="space-y-4">
-			<Label for="max-concurrency" variant="section">Max Concurrency</Label>
+			<Label for="max-concurrency" variant="section">{$_('settings.maxConcurrency')}</Label>
 			<div class="flex items-center gap-2">
 				<div class="flex-1">
 					<Input
@@ -139,17 +141,17 @@
 					disabled={isSaving || localValue.current === String(maxConcurrency)}
 					variant="outline"
 				>
-					{isSaving ? 'Saving...' : 'Apply'}
+					{isSaving ? $_('settings.saving') : $_('common.apply')}
 				</Button>
 			</div>
 		</div>
 
 		<div class="space-y-4">
-			<Label variant="section">App Updates</Label>
+			<Label variant="section">{$_('settings.appUpdates')}</Label>
 			<div class="flex flex-col space-y-3">
 				<div class="flex items-center gap-2">
 					<Checkbox id="auto-update-check" bind:checked={autoUpdateCheck} />
-					<Label for="auto-update-check">Check for updates on startup</Label>
+					<Label for="auto-update-check">{$_('settings.checkOnStartup')}</Label>
 				</div>
 				<Button
 					variant="outline"
@@ -157,7 +159,7 @@
 					onclick={handleCheckUpdate}
 					disabled={isCheckingForUpdate}
 				>
-					{isCheckingForUpdate ? 'Checking...' : 'Check for Updates'}
+					{isCheckingForUpdate ? $_('settings.checking') : $_('settings.checkForUpdates')}
 				</Button>
 				{#if checkStatus}
 					<span class="text-[10px] text-ds-blue-600">{checkStatus}</span>
@@ -166,13 +168,34 @@
 		</div>
 
 		<div class="space-y-4">
-			<Label variant="section">Visuals</Label>
+			<Label variant="section">{$_('settings.visuals')}</Label>
 			<div class="space-y-3">
 				<div class="flex items-center justify-between">
-					<Label for="opacity-slider">Window Tint</Label>
+					<Label for="opacity-slider">{$_('settings.windowTint')}</Label>
 					<span class="text-gray-alpha-600 font-mono text-[10px]">{opacity}%</span>
 				</div>
 				<Slider id="opacity-slider" min={20} max={100} step={1} bind:value={opacity} />
+			</div>
+		</div>
+
+		<div class="space-y-4">
+			<Label variant="section">{$_('settings.language')}</Label>
+			<div class="flex flex-wrap gap-2">
+				{#each supportedLocales as loc (loc.code)}
+					<button
+						type="button"
+						class="group relative flex h-10 w-10 items-center justify-center rounded-md border transition-colors {currentLocale === loc.code ? 'border-blue-500 bg-blue-500/10' : 'border-gray-alpha-200 hover:border-gray-alpha-400'}"
+						onclick={() => {
+							currentLocale = loc.code;
+							setLocale(loc.code);
+						}}
+					>
+						<span class="text-xl">{loc.flag}</span>
+						<span class="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded bg-foreground px-2 py-1 text-xs text-background opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+							{loc.name}
+						</span>
+					</button>
+				{/each}
 			</div>
 		</div>
 	</div>

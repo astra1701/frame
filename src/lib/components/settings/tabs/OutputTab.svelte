@@ -3,6 +3,7 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Input from '$lib/components/ui/Input.svelte';
 	import Label from '$lib/components/ui/Label.svelte';
+	import { _ } from '$lib/i18n';
 
 	import { isAudioCodecAllowed, getDefaultAudioCodec } from '$lib/services/media';
 
@@ -36,21 +37,21 @@
 
 <div class="space-y-4">
 	<div class="space-y-3">
-		<Label variant="section">Output Name</Label>
+		<Label variant="section">{$_('output.outputName')}</Label>
 		<Input
 			type="text"
 			value={outputName}
 			oninput={(e) => onUpdateOutputName?.(e.currentTarget.value)}
-			placeholder="my_render_final"
+			placeholder={$_('output.placeholder')}
 			{disabled}
 		/>
 		<p class="text-gray-alpha-600 text-[10px] tracking-wide uppercase">
-			Stored next to the original file. Extension follows the selected container automatically.
+			{$_('output.hint')}
 		</p>
 	</div>
 
 	<div class="space-y-3 pt-2">
-		<Label variant="section">Output Container</Label>
+		<Label variant="section">{$_('output.container')}</Label>
 		<div class="grid grid-cols-2 gap-2">
 			{#each CONTAINERS as fmt (fmt)}
 				<Button

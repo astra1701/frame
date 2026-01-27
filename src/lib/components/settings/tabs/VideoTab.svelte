@@ -6,6 +6,7 @@
 	import Label from '$lib/components/ui/Label.svelte';
 	import Slider from '$lib/components/ui/Slider.svelte';
 	import { platform } from '@tauri-apps/plugin-os';
+	import { _ } from '$lib/i18n';
 
 	const RESOLUTIONS = ['original', '1080p', '720p', '480p', 'custom'] as const;
 	const ALL_VIDEO_CODECS = [
@@ -28,30 +29,20 @@
 	});
 
 	const PRESETS = [
-		{ id: 'ultrafast', label: 'Ultrafast', desc: 'Largest file, fastest conversion' },
-		{ id: 'superfast', label: 'Superfast', desc: 'Very large file' },
-		{ id: 'veryfast', label: 'Veryfast', desc: 'Large file' },
-		{ id: 'faster', label: 'Faster', desc: 'Moderately large file' },
-		{ id: 'fast', label: 'Fast', desc: 'Slightly larger file' },
-		{ id: 'medium', label: 'Medium', desc: 'Balanced' },
-		{ id: 'slow', label: 'Slow', desc: 'Better compression' },
-		{ id: 'slower', label: 'Slower', desc: 'High compression' },
-		{ id: 'veryslow', label: 'Veryslow', desc: 'Smallest file, slowest conversion' }
+		'ultrafast',
+		'superfast',
+		'veryfast',
+		'faster',
+		'fast',
+		'medium',
+		'slow',
+		'slower',
+		'veryslow'
 	] as const;
 
-	const SCALING_ALGOS = [
-		{ id: 'bicubic', label: 'Bicubic' },
-		{ id: 'lanczos', label: 'Lanczos' },
-		{ id: 'bilinear', label: 'Bilinear' },
-		{ id: 'nearest', label: 'Nearest' }
-	] as const;
+	const SCALING_ALGOS = ['bicubic', 'lanczos', 'bilinear', 'nearest'] as const;
 
-	const FPS_OPTIONS = [
-		{ id: 'original', label: 'Same as source' },
-		{ id: '24', label: '24 fps' },
-		{ id: '30', label: '30 fps' },
-		{ id: '60', label: '60 fps' }
-	] as const;
+	const FPS_OPTIONS = ['original', '24', '30', '60'] as const;
 
 	let {
 		config,
@@ -70,7 +61,7 @@
 
 <div class="space-y-4">
 	<div class="space-y-3">
-		<Label variant="section">Resolution & Framerate</Label>
+		<Label variant="section">{$_('video.resolutionFramerate')}</Label>
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			{#each RESOLUTIONS as res (res)}
 				<Button
@@ -87,7 +78,7 @@
 		{#if config.resolution === 'custom'}
 			<div class="mb-2 grid grid-cols-2 gap-2 pt-1">
 				<div class="flex flex-col gap-1">
-					<Label for="width">Width</Label>
+					<Label for="width">{$_('video.width')}</Label>
 					<Input
 						id="width"
 						type="text"
@@ -102,7 +93,7 @@
 					/>
 				</div>
 				<div class="flex flex-col gap-1">
-					<Label for="height">Height</Label>
+					<Label for="height">{$_('video.height')}</Label>
 					<Input
 						id="height"
 						type="text"
@@ -120,32 +111,32 @@
 		{/if}
 
 		<div class="space-y-3 pt-2">
-			<Label variant="section">Scaling Algorithm</Label>
+			<Label variant="section">{$_('video.scalingAlgorithm')}</Label>
 			<div class="grid grid-cols-2 gap-2">
-				{#each SCALING_ALGOS as algo (algo.id)}
+				{#each SCALING_ALGOS as algo (algo)}
 					<Button
-						variant={config.scalingAlgorithm === algo.id ? 'selected' : 'outline'}
-						onclick={() => onUpdate({ scalingAlgorithm: algo.id })}
+						variant={config.scalingAlgorithm === algo ? 'selected' : 'outline'}
+						onclick={() => onUpdate({ scalingAlgorithm: algo })}
 						disabled={disabled || config.resolution === 'original'}
 						class="w-full"
 					>
-						{algo.label}
+						{$_(`scalingAlgorithm.${algo}`)}
 					</Button>
 				{/each}
 			</div>
 		</div>
 
 		<div class="space-y-3 pt-2">
-			<Label variant="section">Framerate</Label>
+			<Label variant="section">{$_('video.framerate')}</Label>
 			<div class="grid grid-cols-2 gap-2">
-				{#each FPS_OPTIONS as opt (opt.id)}
+				{#each FPS_OPTIONS as opt (opt)}
 					<Button
-						variant={config.fps === opt.id ? 'selected' : 'outline'}
-						onclick={() => onUpdate({ fps: opt.id })}
+						variant={config.fps === opt ? 'selected' : 'outline'}
+						onclick={() => onUpdate({ fps: opt })}
 						{disabled}
 						class="w-full"
 					>
-						{opt.label}
+						{opt === 'original' ? $_('video.sameAsSource') : `${opt} fps`}
 					</Button>
 				{/each}
 			</div>
@@ -153,7 +144,7 @@
 	</div>
 
 	<div class="space-y-3 pt-2">
-		<Label variant="section">Video Encoder</Label>
+		<Label variant="section">{$_('video.encoder')}</Label>
 		<div class="grid grid-cols-1 gap-1.5">
 			{#each availableCodecs as codec (codec.id)}
 				<ListItem
@@ -169,23 +160,23 @@
 	</div>
 
 	<div class="space-y-3 pt-2">
-		<Label variant="section">Encoding Speed</Label>
+		<Label variant="section">{$_('video.encodingSpeed')}</Label>
 		<div class="grid grid-cols-1 gap-1.5">
-			{#each PRESETS as preset (preset.id)}
+			{#each PRESETS as preset (preset)}
 				<ListItem
-					selected={config.preset === preset.id}
-					onclick={() => onUpdate({ preset: preset.id })}
+					selected={config.preset === preset}
+					onclick={() => onUpdate({ preset: preset })}
 					{disabled}
 				>
-					<span>{preset.label}</span>
-					<span class="text-[9px] opacity-50">{preset.desc}</span>
+					<span>{$_(`encodingSpeed.${preset}`)}</span>
+					<span class="text-[9px] opacity-50">{$_(`encodingSpeed.${preset}Desc`)}</span>
 				</ListItem>
 			{/each}
 		</div>
 	</div>
 
 	<div class="space-y-3 pt-2">
-		<Label variant="section">Quality Control</Label>
+		<Label variant="section">{$_('video.qualityControl')}</Label>
 		<div class="grid grid-cols-2 gap-2">
 			<Button
 				variant={config.videoBitrateMode === 'crf' ? 'selected' : 'outline'}
@@ -193,7 +184,7 @@
 				{disabled}
 				class="w-full"
 			>
-				Constant Quality
+				{$_('video.constantQuality')}
 			</Button>
 			<Button
 				variant={config.videoBitrateMode === 'bitrate' ? 'selected' : 'outline'}
@@ -201,7 +192,7 @@
 				{disabled}
 				class="w-full"
 			>
-				Target Bitrate
+				{$_('video.targetBitrate')}
 			</Button>
 		</div>
 	</div>
@@ -211,9 +202,9 @@
 			<div class="flex items-end justify-between">
 				<Label for="quality-factor">
 					{#if isHardwareEncoder}
-						Encoding Quality
+						{$_('video.encodingQuality')}
 					{:else}
-						Quality Factor
+						{$_('video.qualityFactor')}
 					{/if}
 				</Label>
 				<div
@@ -250,18 +241,18 @@
 			</div>
 			<div class="text-gray-alpha-600 flex justify-between text-[9px] uppercase">
 				{#if isHardwareEncoder}
-					<span>Low Quality</span>
-					<span>Best Quality</span>
+					<span>{$_('video.lowQuality')}</span>
+					<span>{$_('video.bestQuality')}</span>
 				{:else}
-					<span>Lossless</span>
-					<span>Smallest</span>
+					<span>{$_('video.lossless')}</span>
+					<span>{$_('video.smallest')}</span>
 				{/if}
 			</div>
 		</div>
 	{:else}
 		<div class="space-y-2 pt-1">
 			<div class="flex items-end justify-between">
-				<Label for="video-bitrate">Target Bitrate (kbps)</Label>
+				<Label for="video-bitrate">{$_('video.targetBitrateKbps')}</Label>
 			</div>
 			<div class="flex items-center gap-2">
 				<Input

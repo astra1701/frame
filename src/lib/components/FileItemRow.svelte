@@ -4,6 +4,7 @@
 	import { cn } from '$lib/utils/cn';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Checkbox from '$lib/components/ui/Checkbox.svelte';
+	import { _ } from '$lib/i18n';
 
 	let {
 		item,
@@ -64,13 +65,13 @@
 			{#if item.status === FileStatus.CONVERTING}
 				<span class="text-[13px] text-ds-amber-800">{Math.round(item.progress)}%</span>
 			{:else if item.status === FileStatus.COMPLETED}
-				<span class="text-[13px] text-ds-blue-600">READY</span>
+				<span class="text-[13px] text-ds-blue-600">{$_('fileStatus.ready')}</span>
 			{:else if item.status === FileStatus.QUEUED}
-				<span class="text-gray-alpha-600 text-[13px]">QUEUED</span>
+				<span class="text-gray-alpha-600 text-[13px]">{$_('fileStatus.queued')}</span>
 			{:else if item.status === FileStatus.ERROR}
-				<span class="text-[13px] text-ds-red-600">ERROR</span>
+				<span class="text-[13px] text-ds-red-600">{$_('fileStatus.error')}</span>
 			{:else}
-				<span class="text-gray-alpha-600 text-[13px]">IDLE</span>
+				<span class="text-gray-alpha-600 text-[13px]">{$_('fileStatus.idle')}</span>
 			{/if}
 		</div>
 	</div>

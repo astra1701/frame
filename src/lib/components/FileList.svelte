@@ -2,6 +2,7 @@
 	import FileItemRow from '$lib/components/FileItemRow.svelte';
 	import type { FileItem } from '$lib/types';
 	import Checkbox from '$lib/components/ui/Checkbox.svelte';
+	import { _ } from '$lib/i18n';
 
 	let {
 		files,
@@ -39,10 +40,10 @@
 					onchange={(e) => onToggleAllBatch(e.currentTarget.checked)}
 				/>
 			</div>
-			<div class="col-span-4">Name</div>
-			<div class="col-span-3 text-right">Size</div>
-			<div class="col-span-2 text-right">Target</div>
-			<div class="col-span-2 text-right">State</div>
+			<div class="col-span-4">{$_('common.name')}</div>
+			<div class="col-span-3 text-right">{$_('common.size')}</div>
+			<div class="col-span-2 text-right">{$_('common.target')}</div>
+			<div class="col-span-2 text-right">{$_('common.state')}</div>
 		</div>
 		<div class="ml-4 w-8"></div>
 	</div>
@@ -51,7 +52,7 @@
 		{#if files.length === 0}
 			<div class="flex h-full flex-col items-center justify-center p-10 select-none">
 				<div class="text-gray-alpha-600 text-[10px] font-medium uppercase">
-					Drop files or use ADD SOURCE
+					{$_('fileList.dropFiles')}
 				</div>
 			</div>
 		{:else}
@@ -67,7 +68,7 @@
 				{/each}
 				<div class="mt-2 border-t border-gray-alpha-100 p-4 text-center">
 					<span class="text-gray-alpha-600 text-[10px] tracking-widest uppercase">
-						END OF LIST // {files.length} OBJECTS
+						{$_('fileList.endOfList', { values: { count: files.length } })}
 					</span>
 				</div>
 			</div>
