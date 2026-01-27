@@ -15,6 +15,7 @@
 	import AppSettingsSheet from '$lib/components/AppSettingsSheet.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Label from '$lib/components/ui/Label.svelte';
+	import { _ } from '$lib/i18n';
 
 	import {
 		type FileItem,
@@ -501,7 +502,7 @@
 				class="flex h-36 w-72 flex-col items-center justify-center rounded-lg border border-dashed border-ds-blue-600 bg-ds-blue-900/20 shadow-2xl backdrop-blur-sm"
 			>
 				<p class="font-mono text-[10px] font-medium tracking-widest text-ds-blue-500 uppercase">
-					Import Source Files
+					{$_('fileList.importSource')}
 				</p>
 			</div>
 		</div>
@@ -517,10 +518,10 @@
 				class="flex w-100 flex-col gap-4 rounded-lg border border-ds-blue-600 bg-ds-blue-900/20 p-3 shadow-2xl backdrop-blur-sm"
 			>
 				<div>
-					<Label variant="section" class="text-foreground">Update Available</Label>
+					<Label variant="section" class="text-foreground">{$_('update.available')}</Label>
 
 					<p class="text-gray-alpha-600 font-mono text-[10px] font-medium tracking-wide uppercase">
-						Version {updateStore.version} is available.
+						{$_('update.versionAvailable', { values: { version: updateStore.version } })}
 					</p>
 				</div>
 
@@ -553,8 +554,8 @@
 					</div>
 				{:else}
 					<div class="flex justify-end gap-2">
-						<Button variant="ghost" onclick={handleCancelUpdate}>Later</Button>
-						<Button onclick={handleUpdate}>Update Now</Button>
+						<Button variant="ghost" onclick={handleCancelUpdate}>{$_('update.later')}</Button>
+						<Button onclick={handleUpdate}>{$_('update.updateNow')}</Button>
 					</div>
 				{/if}
 			</div>

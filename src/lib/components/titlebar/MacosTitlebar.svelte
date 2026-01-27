@@ -4,6 +4,7 @@
 	import { cn } from '$lib/utils/cn';
 	import frameIcon from '$lib/assets/icons/frame.svg?raw';
 	import Button from '$lib/components/ui/Button.svelte';
+	import { _ } from '$lib/i18n';
 
 	const appWindow = getCurrentWindow();
 
@@ -62,7 +63,7 @@
 			<button
 				onclick={close}
 				class="flex size-6 items-center justify-center rounded-full transition-opacity"
-				title="Close"
+				title={$_('titlebar.close')}
 			>
 				<svg viewBox="-10 -10 20 20" class="h-full w-full" aria-hidden="true">
 					<circle r="6" fill="#ff5f56" stroke="#e0443e" stroke-width="0.6" />
@@ -78,7 +79,7 @@
 			<button
 				onclick={minimize}
 				class="flex size-6 items-center justify-center rounded-full transition-opacity"
-				title="Minimize"
+				title={$_('titlebar.minimize')}
 			>
 				<svg viewBox="-10 -10 20 20" class="h-full w-full" aria-hidden="true">
 					<circle r="6" fill="#ffbd2e" stroke="#dea123" stroke-width="0.6" />
@@ -97,7 +98,7 @@
 			<button
 				onclick={toggleMaximize}
 				class="flex size-6 items-center justify-center rounded-full transition-opacity"
-				title="Toggle size"
+				title={$_('titlebar.toggleSize')}
 			>
 				<svg viewBox="-10 -10 20 20" class="h-full w-full" aria-hidden="true">
 					<circle r="6" fill="#27c93f" stroke="#1aab29" stroke-width="0.6" />
@@ -133,7 +134,7 @@
 					class="gap-2"
 				>
 					<LayoutList size={12} />
-					<span>Dashboard</span>
+					<span>{$_('titlebar.dashboard')}</span>
 				</Button>
 				<Button
 					variant={activeView === 'logs' ? 'default' : 'titlebar-ghost'}
@@ -142,7 +143,7 @@
 					class="gap-2"
 				>
 					<Terminal size={12} />
-					<span>Logs</span>
+					<span>{$_('titlebar.logs')}</span>
 				</Button>
 			</div>
 		{/if}
@@ -152,11 +153,11 @@
 		<div class="text-gray-alpha-600 pointer-events-none flex items-center gap-4 text-[10px]">
 			<div class="flex items-center gap-2">
 				<HardDrive size={12} />
-				<span>STORAGE: {formatTotalSize(totalSize)}</span>
+				<span>{$_('titlebar.storage')} {formatTotalSize(totalSize)}</span>
 			</div>
 			<div class="flex items-center gap-2">
 				<FileVideo size={12} />
-				<span>ITEMS: {fileCount}</span>
+				<span>{$_('titlebar.items')} {fileCount}</span>
 			</div>
 		</div>
 	</div>
@@ -170,7 +171,7 @@
 		{#if onAddFile}
 			<Button onclick={onAddFile} variant="secondary" class="pointer-events-auto gap-2">
 				<Plus size={12} />
-				Add Source
+				{$_('titlebar.addSource')}
 			</Button>
 		{/if}
 
@@ -182,10 +183,10 @@
 				class={cn('pointer-events-auto gap-2', isProcessing && 'cursor-progress')}
 			>
 				{#if isProcessing}
-					<span class="animate-pulse">PROCESSING...</span>
+					<span class="animate-pulse">{$_('titlebar.processing')}</span>
 				{:else}
 					<Play size={12} fill="currentColor" />
-					START
+					{$_('titlebar.start')}
 				{/if}
 			</Button>
 		{/if}

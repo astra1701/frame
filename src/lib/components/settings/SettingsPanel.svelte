@@ -6,6 +6,7 @@
 		PresetDefinition,
 		SourceMetadata
 	} from '$lib/types';
+	import { _ } from '$lib/i18n';
 
 	import SourceTab from './tabs/SourceTab.svelte';
 	import OutputTab from './tabs/OutputTab.svelte';
@@ -13,14 +14,8 @@
 	import VideoTab from './tabs/VideoTab.svelte';
 	import AudioTab from './tabs/AudioTab.svelte';
 
-	const TABS = [
-		{ id: 'source', label: 'Source' },
-		{ id: 'output', label: 'Output' },
-		{ id: 'video', label: 'Video' },
-		{ id: 'audio', label: 'Audio' },
-		{ id: 'presets', label: 'Presets' }
-	] as const;
-	type TabId = (typeof TABS)[number]['id'];
+	const TABS = ['source', 'output', 'video', 'audio', 'presets'] as const;
+	type TabId = (typeof TABS)[number];
 
 	let {
 		config,
@@ -58,19 +53,19 @@
 <div class="flex h-full flex-col">
 	<div class="flex h-10 items-center justify-between border-b border-gray-alpha-100 px-4">
 		<div class="flex w-full items-center justify-start gap-4">
-			{#each TABS as tab (tab.id)}
+			{#each TABS as tabId (tabId)}
 				{@const isVideoDisabled =
-					tab.id === 'video' && AUDIO_ONLY_CONTAINERS.includes(config.container)}
+					tabId === 'video' && AUDIO_ONLY_CONTAINERS.includes(config.container)}
 				<button
 					disabled={isVideoDisabled}
 					class={cn(
 						'text-[10px] font-medium tracking-widest uppercase transition-all',
-						activeTab === tab.id ? 'text-ds-blue-600' : 'text-gray-alpha-600 hover:text-foreground',
+						activeTab === tabId ? 'text-ds-blue-600' : 'text-gray-alpha-600 hover:text-foreground',
 						isVideoDisabled && 'pointer-events-none opacity-50'
 					)}
-					onclick={() => (activeTab = tab.id)}
+					onclick={() => (activeTab = tabId)}
 				>
-					{tab.label}
+					{$_(`tabs.${tabId}`)}
 				</button>
 			{/each}
 		</div>

@@ -6,6 +6,7 @@
 	import Input from '$lib/components/ui/Input.svelte';
 	import Label from '$lib/components/ui/Label.svelte';
 	import { isAudioCodecAllowed } from '$lib/services/media';
+	import { _ } from '$lib/i18n';
 
 	const AUDIO_CODECS = [
 		{ id: 'aac', label: 'AAC / Stereo' },
@@ -17,11 +18,7 @@
 		{ id: 'pcm_s16le', label: 'PCM / WAV' }
 	] as const;
 
-	const CHANNELS = [
-		{ id: 'original', label: 'Original' },
-		{ id: 'stereo', label: 'Stereo (2.0)' },
-		{ id: 'mono', label: 'Mono (1.0)' }
-	] as const;
+	const CHANNELS = ['original', 'stereo', 'mono'] as const;
 
 	let {
 		config,
@@ -60,23 +57,23 @@
 
 <div class="space-y-4">
 	<div class="space-y-3">
-		<Label variant="section">Channels & Bitrate</Label>
+		<Label variant="section">{$_('audio.channelsBitrate')}</Label>
 		<div class="space-y-3">
 			<div class="grid grid-cols-3 gap-2">
-				{#each CHANNELS as ch (ch.id)}
+				{#each CHANNELS as ch (ch)}
 					<Button
-						variant={config.audioChannels === ch.id ? 'selected' : 'outline'}
-						onclick={() => onUpdate({ audioChannels: ch.id })}
+						variant={config.audioChannels === ch ? 'selected' : 'outline'}
+						onclick={() => onUpdate({ audioChannels: ch })}
 						{disabled}
 						class="w-full"
 					>
-						{ch.label}
+						{$_(`audio.${ch}`)}
 					</Button>
 				{/each}
 			</div>
 
 			<div class="space-y-2 pt-1">
-				<Label for="audio-bitrate">Bitrate (kbps)</Label>
+				<Label for="audio-bitrate">{$_('audio.bitrateKbps')}</Label>
 				<Input
 					id="audio-bitrate"
 					type="text"
@@ -90,14 +87,14 @@
 				/>
 				{#if ['flac', 'alac', 'pcm_s16le'].includes(config.audioCodec)}
 					<p class="text-[9px] text-gray-alpha-600 uppercase">
-						Bitrate ignored for lossless codecs
+						{$_('audio.bitrateIgnored')}
 					</p>
 				{/if}
 			</div>
 		</div>
 	</div>
 	<div class="space-y-3 pt-2">
-		<Label variant="section">Audio Codec</Label>
+		<Label variant="section">{$_('audio.codec')}</Label>
 		<div class="grid grid-cols-1">
 			{#each AUDIO_CODECS as codec (codec.id)}
 				{@const allowed = isAudioCodecAllowed(codec.id, config.container)}
@@ -109,7 +106,7 @@
 				>
 					<span>{codec.id}</span>
 					<span class="text-[9px] opacity-50">
-						{!allowed ? 'Incompatible container' : codec.label}
+						{!allowed ? $_('audio.incompatibleContainer') : codec.label}
 					</span>
 				</ListItem>
 			{/each}
@@ -118,7 +115,7 @@
 
 	{#if metadata?.audioTracks && metadata.audioTracks.length > 0}
 		<div class="space-y-3 pt-2">
-			<Label variant="section">Source Tracks</Label>
+			<Label variant="section">{$_('audio.sourceTracks')}</Label>
 			<div class="grid grid-cols-1 gap-2">
 				{#each metadata.audioTracks as track (track.index)}
 					{@const isSelected = (config.selectedAudioTracks || []).includes(track.index)}
@@ -140,7 +137,7 @@
 								<div class="text-[9px] tracking-wide uppercase">
 									<span class="mx-0.5">•</span>
 
-									{track.channels} CH
+									{track.channels} {$_('audio.channels')}
 									{#if track.language}
 										<span class="mx-0.5">•</span>
 										{track.language}{/if}

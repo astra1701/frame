@@ -4,6 +4,12 @@
 </div>
 
 <div align="center">
+
+[English](./README.md) | [简体中文](./readme/zh-CN.md) | [日本語](./readme/ja-JP.md) | [한국어](./readme/ko-KR.md) | [Español](./readme/es-ES.md) | [Русский](./readme/ru-RU.md) | [Français](./readme/fr-FR.md) | [Deutsch](./readme/de-DE.md) | [Italiano](./readme/it-IT.md)
+
+</div>
+
+<div align="center">
 	<img src="https://img.shields.io/badge/Tauri-v2-orange?style=flat-square&logo=tauri" alt="Tauri" />
 	<img src="https://img.shields.io/badge/Svelte-v5-red?style=flat-square&logo=svelte" alt="Svelte" />
 	<img src="https://img.shields.io/badge/Rust-Edition_2024-black?style=flat-square&logo=rust" alt="Rust" />
@@ -69,6 +75,7 @@
 - **Build System:** Vite.
 - **Styling:** Tailwind CSS v4, `clsx`, `tailwind-merge`.
 - **State Management:** Svelte 5 `$state` / `$props`.
+- **Internationalization:** Multi-language interface with automatic system language detection.
 - **Typography:** Geist Mono (embedded).
 
 ### Installation
@@ -122,6 +129,7 @@ The easiest way to run Frame is to grab a prebuilt package from the [GitHub Rele
     - **Output:** Select container format and output filename.
     - **Video:** Configure codec, bitrate/CRF, resolution, and framerate.
     - **Audio:** Select codec, bitrate, channels, and specific tracks.
+    - **Presets:** Save and load reusable conversion profiles.
 3.  **Execution:** Initiates the conversion process via the Rust backend.
 4.  **Monitoring:** View real-time logs and percentage counters in the UI.
 

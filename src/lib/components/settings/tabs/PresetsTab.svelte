@@ -7,6 +7,7 @@
 	import Input from '$lib/components/ui/Input.svelte';
 	import ListItem from '$lib/components/ui/ListItem.svelte';
 	import Label from '$lib/components/ui/Label.svelte';
+	import { _ } from '$lib/i18n';
 
 	let {
 		config,
@@ -53,41 +54,41 @@
 	async function savePreset() {
 		if (!onSavePreset || disabled) return;
 		if (!newPresetName.trim()) {
-			showNotice('Name required', 'error');
+			showNotice($_('presets.nameRequired'), 'error');
 			return;
 		}
 
 		const result = await onSavePreset(newPresetName.trim());
 		if (result === false) {
-			showNotice('Preset not saved', 'error');
+			showNotice($_('presets.notSaved'), 'error');
 			return;
 		}
 
 		newPresetName = '';
-		showNotice('Preset saved');
+		showNotice($_('presets.saved'));
 	}
 
 	function applyPreset(preset: PresetDefinition) {
 		if (disabled) return;
 		onApplyPreset?.(preset);
-		showNotice(`Applied ${preset.name}`);
+		showNotice($_('presets.appliedName', { values: { name: preset.name } }));
 	}
 
 	async function removePreset(preset: PresetDefinition) {
 		if (!onDeletePreset || preset.builtIn) return;
 		const result = await onDeletePreset(preset.id);
 		if (result === false) {
-			showNotice('Unable to delete', 'error');
+			showNotice($_('presets.unableToDelete'), 'error');
 			return;
 		}
 
-		showNotice('Preset removed');
+		showNotice($_('presets.removed'));
 	}
 </script>
 
 <div class="space-y-3">
 	<div class="relative w-full">
-		<Label variant="section">Preset Library</Label>
+		<Label variant="section">{$_('presets.library')}</Label>
 		{#if notice}
 			<span
 				class={cn(
@@ -106,12 +107,12 @@
 				type="text"
 				value={newPresetName}
 				oninput={(e) => (newPresetName = e.currentTarget.value)}
-				placeholder="Preset Label"
+				placeholder={$_('presets.label')}
 				{disabled}
 			/>
 		</div>
 		<Button onclick={savePreset} disabled={disabled || !newPresetName.trim()} variant="outline">
-			Save
+			{$_('common.save')}
 		</Button>
 	</div>
 
@@ -131,14 +132,14 @@
 				<span class="truncate">{preset.name}</span>
 				<div class="flex items-center gap-2">
 					<span class="pr-2 text-[9px] font-medium opacity-50">
-						{configsMatch(config, preset.config) ? 'APPLIED' : ''}
+						{configsMatch(config, preset.config) ? $_('presets.applied') : ''}
 					</span>
 					{#if !preset.builtIn}
 						<Button
 							variant="destructive"
 							size="none"
 							class="size-5 shrink-0 opacity-50 hover:opacity-100"
-							title="Delete preset"
+							title={$_('presets.deletePreset')}
 							onclick={(event) => {
 								event.stopPropagation();
 								removePreset(preset);
