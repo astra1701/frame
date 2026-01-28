@@ -88,6 +88,8 @@ pub fn run() {
         .plugin(StoreBuilder::new().build())
         .invoke_handler(tauri::generate_handler![
             conversion::queue_conversion,
+            conversion::pause_conversion,
+            conversion::resume_conversion,
             conversion::probe_media,
             conversion::get_max_concurrency,
             conversion::set_max_concurrency,
