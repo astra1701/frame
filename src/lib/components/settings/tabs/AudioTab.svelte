@@ -142,7 +142,7 @@
 					selected={config.audioCodec === codec.id}
 					onclick={() => onUpdate({ audioCodec: codec.id })}
 					disabled={disabled || !allowed}
-					class={cn(!allowed && 'cursor-not-allowed opacity-50')}
+					class={cn(!allowed && 'pointer-events-none opacity-50')}
 				>
 					<span>{codec.id}</span>
 					<span class="text-[9px] opacity-50">
