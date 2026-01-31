@@ -15,6 +15,7 @@
 	import { cn } from '$lib/utils/cn';
 	import frameIcon from '$lib/assets/icons/frame.svg?raw';
 	import Button from '$lib/components/ui/Button.svelte';
+	import { _ } from '$lib/i18n';
 
 	const appWindow = getCurrentWindow();
 
@@ -89,7 +90,7 @@
 							class="gap-2"
 						>
 							<LayoutList size={12} />
-							<span>Dashboard</span>
+							<span>{$_('titlebar.dashboard')}</span>
 						</Button>
 						<Button
 							variant={activeView === 'logs' ? 'default' : 'titlebar-ghost'}
@@ -98,7 +99,7 @@
 							class="gap-2"
 						>
 							<Terminal size={12} />
-							<span>Logs</span>
+							<span>{$_('titlebar.logs')}</span>
 						</Button>
 					</div>
 				{/if}
@@ -108,11 +109,11 @@
 				<div class="text-gray-alpha-600 pointer-events-none flex items-center gap-4 text-[10px]">
 					<div class="flex items-center gap-2">
 						<HardDrive size={12} />
-						<span>STORAGE: {formatTotalSize(totalSize)}</span>
+						<span>{$_('titlebar.storage')} {formatTotalSize(totalSize)}</span>
 					</div>
 					<div class="flex items-center gap-2">
 						<FileVideo size={12} />
-						<span>ITEMS: {fileCount}</span>
+						<span>{$_('titlebar.items')} {fileCount}</span>
 					</div>
 				</div>
 			</div>
@@ -131,7 +132,7 @@
 				{#if onAddFile}
 					<Button onclick={onAddFile} variant="secondary" class="pointer-events-auto gap-2">
 						<Plus size={12} />
-						Add Source
+						{$_('titlebar.addSource')}
 					</Button>
 				{/if}
 
@@ -143,10 +144,10 @@
 						class={cn('pointer-events-auto gap-2', isProcessing && 'cursor-progress')}
 					>
 						{#if isProcessing}
-							<span class="animate-pulse">PROCESSING...</span>
+							<span class="animate-pulse">{$_('titlebar.processing')}</span>
 						{:else}
 							<Play size={12} fill="currentColor" />
-							START
+							{$_('titlebar.start')}
 						{/if}
 					</Button>
 				{/if}
@@ -162,7 +163,7 @@
 			size="none"
 			onclick={minimize}
 			class="size-7 rounded-lg"
-			title="Minimize"
+			title={$_('titlebar.minimize')}
 		>
 			<Minus size={14} />
 		</Button>
@@ -171,7 +172,7 @@
 			size="none"
 			onclick={toggleMaximize}
 			class="size-7 rounded-lg"
-			title="Maximize"
+			title={$_('titlebar.toggleSize')}
 		>
 			<Square size={12} />
 		</Button>
@@ -180,7 +181,7 @@
 			size="none"
 			onclick={close}
 			class="size-7 rounded-lg"
-			title="Close"
+			title={$_('titlebar.close')}
 		>
 			<X size={14} />
 		</Button>
