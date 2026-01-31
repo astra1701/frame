@@ -81,7 +81,19 @@
 		"videoCodec": "ビデオコーデック",
 		"videoBitrate": "ビデオビットレート",
 		"audioCodec": "オーディオコーデック",
-		"containerBitrate": "コンテナビットレート"
+		"containerBitrate": "コンテナビットレート",
+		"pixelFormat": "ピクセル形式",
+		"colorSpace": "色空間",
+		"colorRange": "色範囲",
+		"colorPrimaries": "原色",
+		"profile": "プロファイル",
+		"sampleRate": "サンプリングレート",
+		"bitrate": "ビットレート",
+		"channels": "チャンネル",
+		"fileInfo": "ファイル情報",
+		"videoStream": "ビデオストリーム",
+		"audioStream": "オーディオストリーム",
+		"track": "トラック"
 	},
 	"output": {
 		"outputName": "出力名",
