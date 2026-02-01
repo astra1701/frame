@@ -135,7 +135,11 @@ The easiest way to run Frame is to grab a prebuilt package from the [GitHub Rele
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=66HEX/frame&type=timeline&legend=top-left)](https://www.star-history.com/#66HEX/frame&type=timeline&legend=top-left)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=66HEX/frame&type=timeline&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=66HEX/frame&type=timeline" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=66HEX/frame&type=timeline" />
+</picture>
 
 ## License
 
