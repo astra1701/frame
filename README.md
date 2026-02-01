@@ -78,47 +78,82 @@
 - **Internationalization:** Multi-language interface with automatic system language detection.
 - **Typography:** Geist Mono (embedded).
 
-### Installation
+## Installation
 
-#### via Homebrew (macOS)
+### Download Prebuilt Binaries
 
-The easiest way to install and keep Frame updated on macOS is via our custom Homebrew Tap:
+The easiest way to get started is to download the latest release for your platform (macOS, Windows, or Linux) directly from GitHub.
+
+[**Download Latest Release**](https://github.com/66HEX/frame/releases)
+
+> **Note:** Since the application is not yet code-signed, you may need to manually approve it in your system settings (see the warning at the top of this file).
+
+### Homebrew (macOS)
+
+For macOS users, you can install and update Frame easily using our custom Homebrew Tap:
 
 ```bash
 brew tap 66HEX/frame
 brew install --cask frame
 ```
 
-### Use Prebuilt Releases
+### Linux System Requirements
 
-The easiest way to run Frame is to grab a prebuilt package from the [GitHub Releases](https://github.com/66HEX/frame/releases) page. Each release ships builds for macOS (Intel/Apple Silicon), Windows, and Linux (AppImage/Deb). Keep in mind the binaries aren’t code-signed yet, so your OS may warn you and require manual approval.
+Even when using the **AppImage**, Frame relies on the system's **WebKitGTK** and **GStreamer** libraries for rendering the UI and handling media playback. If the application crashes upon adding a source or the video preview remains blank, you likely need to install the missing GStreamer plugins.
 
-### Prerequisites
-
-- Node.js runtime (or Bun).
-- Rust toolchain (`cargo`).
-- **FFmpeg** and **FFprobe** binaries must be present in the `src-tauri/binaries/` directory.
-  - Naming convention: `ffmpeg-<target-triple>` (e.g., `ffmpeg-aarch64-apple-darwin` or `ffmpeg-x86_64-pc-windows-msvc.exe`).
-
-> Tip: Run `bun run setup:binaries` (or `npm run setup:binaries`) to automatically download the correct binaries for your OS/architecture. Use `--force` to refresh existing downloads.
-
-### Build Instructions
-
-1.  **Install dependencies:**
-
+*   **Ubuntu / Debian:**
     ```bash
-    bun install
+    sudo apt update
+    sudo apt install libwebkit2gtk-4.1-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-libav
     ```
 
-2.  **Start development server:**
-
+*   **Arch Linux:**
     ```bash
-    bun run tauri dev
+    sudo pacman -S --needed webkit2gtk-4.1 gst-plugins-base gst-plugins-good gst-libav
     ```
 
-3.  **Compile for production:**
+*   **Fedora:**
     ```bash
-    bun run tauri build
+    sudo dnf install webkit2gtk4.1 gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-libav
+    ```
+
+### Build from Source
+
+If you prefer to build the application yourself or want to contribute, follow these steps.
+
+**1. Prerequisites**
+*   **Rust:** [Install Rust](https://www.rust-lang.org/tools/install)
+*   **Bun (or Node.js):** [Install Bun](https://bun.sh/)
+*   **OS Dependencies:** Follow the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) for your operating system.
+
+**2. Setup Project**
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/66HEX/frame.git
+cd frame
+bun install
+```
+
+**3. Setup Binaries**
+
+Frame requires FFmpeg and FFprobe sidecar binaries. We provide a script to fetch the correct version for your platform automatically:
+
+```bash
+bun run setup:binaries
+```
+
+**4. Build or Run**
+
+*   **Development:**
+    ```bash
+    bun tauri dev
+    ```
+
+*   **Production Build:**
+    ```bash
+    bun tauri build
     ```
 
 ## Usage
