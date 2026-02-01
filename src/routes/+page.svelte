@@ -68,8 +68,8 @@
 	let selectedFileLocked = $derived(
 		selectedFile
 			? selectedFile.status === FileStatus.CONVERTING ||
-				selectedFile.status === FileStatus.QUEUED ||
-				selectedFile.status === FileStatus.COMPLETED
+					selectedFile.status === FileStatus.QUEUED ||
+					selectedFile.status === FileStatus.COMPLETED
 			: false
 	);
 	let totalSize = $derived(files.reduce((acc, curr) => acc + curr.size, 0));
@@ -545,7 +545,7 @@
 	<div class="relative flex-1 overflow-hidden p-4">
 		{#if activeView === 'dashboard'}
 			<div class="grid h-full grid-cols-12 gap-4">
-				<div class="col-span-12 h-full min-h-0 lg:col-span-8">
+				<div class="col-span-8 h-full min-h-0">
 					<div class="grid h-full grid-rows-12 gap-4">
 						<div class="row-span-8 min-h-0">
 							{#if selectedFile}
@@ -587,13 +587,13 @@
 					</div>
 				</div>
 
-				<div class="col-span-12 h-full min-h-0 lg:col-span-4">
+				<div class="col-span-4 h-full min-h-0">
 					<div
 						class="custom-scrollbar h-full min-h-0 overflow-y-auto rounded-lg border border-gray-alpha-100 bg-gray-alpha-100"
 					>
-								{#if selectedFile}
-									<SettingsPanel
-										config={selectedFile.config}
+						{#if selectedFile}
+							<SettingsPanel
+								config={selectedFile.config}
 								outputName={selectedFile.outputName}
 								metadata={selectedFile.metadata}
 								metadataStatus={selectedFile.metadataStatus}

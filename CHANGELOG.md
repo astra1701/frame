@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **UI:** Replaced text-based setting tabs with intuitive icon-based buttons (Source, Output, Video, Audio, Metadata, Presets) for a cleaner and more compact interface.
+- **Documentation:** Updated README with Linux system requirements for AppImage users.
+
 ## [0.15.0] - 2026-02-01
 
 ### Added

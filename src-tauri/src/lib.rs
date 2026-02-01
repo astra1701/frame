@@ -1,5 +1,5 @@
-mod conversion;
 mod capabilities;
+mod conversion;
 use tauri::window::{Color, EffectState};
 use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_store::Builder as StoreBuilder;
