@@ -13,6 +13,7 @@ export { default as IconFlipVertical } from './components/IconFlipVertical.svelt
 export { default as IconHardDrive } from './components/IconHardDrive.svelte';
 export { default as IconMinus } from './components/IconMinus.svelte';
 export { default as IconPause } from './components/IconPause.svelte';
+export { default as IconPause2 } from './components/IconPause2.svelte';
 export { default as IconPlay } from './components/IconPlay.svelte';
 export { default as IconPlus } from './components/IconPlus.svelte';
 export { default as IconLayoutList } from './components/IconLayoutList.svelte';

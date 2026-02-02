@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Preview Panel:** Enhanced the video playback overlay with interactive behavior.
+  - **Dynamic Overlay:** The play/pause overlay now automatically appears on hover during playback and remains visible when paused.
+  - **Animated Transitions:** Implemented smooth Svelte fade transitions for the overlay and playback controls.
+  - **Contextual Icons:** The overlay button now dynamically toggles between Play and Pause icons based on the current playback state.
+
 ### Changed
 
 - **Icon System:** Migrated the entire application icon set from `lucide-svelte` to Phosphor Icons.

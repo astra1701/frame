@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import { convertFileSrc } from '@tauri-apps/api/core';
 	import {
 		IconCrop as CropIcon,
 		IconFlipHorizontal as FlipHorizontalIcon,
 		IconFlipVertical as FlipVerticalIcon,
 		IconPlay,
+		IconPause2,
 		IconRotateCw
 	} from '$lib/icons';
 	import Button from '$lib/components/ui/Button.svelte';
@@ -79,6 +81,7 @@
 
 	let sliderRef: HTMLDivElement | undefined = $state();
 	let dragging: 'start' | 'end' | null = null;
+	let isHovering = $state(false);
 
 	let cropMode = $state(false);
 	let appliedCrop: CropRect | null = $state(null);
@@ -571,9 +574,11 @@
 	class="flex h-full flex-col overflow-hidden rounded-xl border border-gray-alpha-100 bg-gray-alpha-100 p-4"
 >
 	<div
-		class="border-gray-alpha-200 relative flex min-h-0 flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-lg border bg-background"
+		class="border-gray-alpha-200 relative flex min-h-0 flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-lg border bg-black"
 		bind:this={containerRef}
 		onclick={() => !cropMode && togglePlay()}
+		onmouseenter={() => (isHovering = true)}
+		onmouseleave={() => (isHovering = false)}
 		role="presentation"
 	>
 		<div
@@ -585,7 +590,7 @@
 				<video
 					bind:this={videoRef}
 					src={videoSrc}
-					class="block h-full w-full bg-background object-contain"
+					class="block h-full w-full bg-black object-contain"
 					onloadedmetadata={handleMetadata}
 					ontimeupdate={handleTimeUpdate}
 					onplay={() => (isPlaying = true)}
@@ -649,20 +654,26 @@
 				{/if}
 			</div>
 		</div>
-		{#if !isPlaying && !cropMode}
+		{#if !cropMode && (!isPlaying || isHovering)}
 			<div
-				class="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/40"
+				class="absolute inset-0 z-10 flex cursor-pointer items-center justify-center"
 				onclick={(e) => {
 					e.stopPropagation();
 					togglePlay();
 				}}
 				role="presentation"
 			>
+				<div class="absolute inset-0 bg-black/40" transition:fade={{ duration: 100 }}></div>
 				<div
-					class="bg-gray-alpha-200 flex size-16 items-center justify-center rounded-full backdrop-blur-md"
-					style="transform-origin: center;"
+					class="bg-gray-alpha-200 relative flex size-16 items-center justify-center rounded-full text-foreground shadow-sm backdrop-blur-md"
+					style="transform-origin: center; will-change: opacity; transform: translateZ(0);"
+					transition:fade={{ duration: 100 }}
 				>
-					<IconPlay size={24} color="currentColor" class="ml-1" />
+					{#if isPlaying}
+						<IconPause2 size={24} />
+					{:else}
+						<IconPlay size={24} />
+					{/if}
 				</div>
 			</div>
 		{/if}
