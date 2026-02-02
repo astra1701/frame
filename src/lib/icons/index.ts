@@ -1,53 +1,25 @@
-import {
-	Bookmark,
-	Captions,
-	Check,
-	Crop,
-	FileDown,
-	FileUp,
-	FileVideo,
-	Film,
-	FlipHorizontal,
-	FlipVertical,
-	HardDrive,
-	LayoutList,
-	ListChecks,
-	Minus,
-	Music,
-	Pause,
-	Play,
-	Plus,
-	RotateCw,
-	Settings,
-	Square,
-	Tags,
-	Terminal,
-	Trash2,
-	X
-} from 'lucide-svelte';
-
-export const IconBookmark = Bookmark;
-export const IconCaptions = Captions;
-export const IconCheck = Check;
-export const IconCrop = Crop;
-export const IconFileDown = FileDown;
-export const IconFileUp = FileUp;
-export const IconFileVideo = FileVideo;
-export const IconFilm = Film;
-export const IconFlipHorizontal = FlipHorizontal;
-export const IconFlipVertical = FlipVertical;
-export const IconHardDrive = HardDrive;
-export const IconLayoutList = LayoutList;
-export const IconListChecks = ListChecks;
-export const IconMinus = Minus;
-export const IconMusic = Music;
-export const IconPause = Pause;
-export const IconPlay = Play;
-export const IconPlus = Plus;
-export const IconRotateCw = RotateCw;
-export const IconSettings = Settings;
-export const IconSquare = Square;
-export const IconTags = Tags;
-export const IconTerminal = Terminal;
-export const IconTrash = Trash2;
-export const IconClose = X;
+export { default as IconBookmark } from './components/IconBookmark.svelte';
+export { default as IconCaptions } from './components/IconCaptions.svelte';
+export { default as IconCheck } from './components/IconCheck.svelte';
+export { default as IconListChecks } from './components/IconListChecks.svelte';
+export { default as IconCrop } from './components/IconCrop.svelte';
+export { default as IconFileDown } from './components/IconFileDown.svelte';
+export { default as IconFileUp } from './components/IconFileUp.svelte';
+export { default as IconMusic } from './components/IconMusic.svelte';
+export { default as IconFileVideo } from './components/IconFileVideo.svelte';
+export { default as IconFilm } from './components/IconFilm.svelte';
+export { default as IconFlipHorizontal } from './components/IconFlipHorizontal.svelte';
+export { default as IconFlipVertical } from './components/IconFlipVertical.svelte';
+export { default as IconHardDrive } from './components/IconHardDrive.svelte';
+export { default as IconMinus } from './components/IconMinus.svelte';
+export { default as IconPause } from './components/IconPause.svelte';
+export { default as IconPlay } from './components/IconPlay.svelte';
+export { default as IconPlus } from './components/IconPlus.svelte';
+export { default as IconLayoutList } from './components/IconLayoutList.svelte';
+export { default as IconRotateCw } from './components/IconRotateCw.svelte';
+export { default as IconSettings } from './components/IconSettings.svelte';
+export { default as IconSquare } from './components/IconSquare.svelte';
+export { default as IconTags } from './components/IconTags.svelte';
+export { default as IconTerminal } from './components/IconTerminal.svelte';
+export { default as IconTrash } from './components/IconTrash.svelte';
+export { default as IconClose } from './components/IconClose.svelte';

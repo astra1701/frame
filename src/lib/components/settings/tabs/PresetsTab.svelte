@@ -198,7 +198,7 @@
 							}}
 							{disabled}
 						>
-							<IconListChecks size={12} />
+							<IconListChecks size={14} />
 						</Button>
 					{/if}
 

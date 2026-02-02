@@ -95,7 +95,7 @@
 					}}
 					class="text-gray-alpha-600 transition-colors hover:text-foreground"
 				>
-					<IconPause size={14} fill="currentColor" color="none" />
+					<IconPause size={16} fill="currentColor" color="none" />
 				</button>
 			{:else if item.status === FileStatus.PAUSED}
 				<button
@@ -105,7 +105,7 @@
 					}}
 					class="text-gray-alpha-600 transition-colors hover:text-foreground"
 				>
-					<IconPlay size={14} fill="currentColor" color="none" />
+					<IconPlay size={16} color="currentColor" />
 				</button>
 			{/if}
 
@@ -119,7 +119,7 @@
 				disabled={item.status === FileStatus.CONVERTING}
 				class="text-gray-alpha-600 h-4 w-4 hover:bg-transparent hover:text-ds-red-600 disabled:pointer-events-none disabled:opacity-50"
 			>
-				<IconTrash size={14} />
+				<IconTrash size={16} />
 			</Button>
 		</div>
 	</div>

@@ -662,7 +662,7 @@
 					class="bg-gray-alpha-200 flex size-16 items-center justify-center rounded-full backdrop-blur-md"
 					style="transform-origin: center;"
 				>
-					<IconPlay size={24} fill="currentColor" class="ml-1" />
+					<IconPlay size={24} color="currentColor" class="ml-1" />
 				</div>
 			</div>
 		{/if}
@@ -774,7 +774,7 @@
 					onclick={handleRotateToggle}
 					disabled={controlsDisabled}
 				>
-					<IconRotateCw size={14} />
+					<IconRotateCw size={16} />
 				</Button>
 				<Button
 					size="icon"
@@ -783,7 +783,7 @@
 					onclick={() => toggleFlip('horizontal')}
 					disabled={controlsDisabled}
 				>
-					<FlipHorizontalIcon size={14} />
+					<FlipHorizontalIcon size={16} />
 				</Button>
 				<Button
 					size="icon"
@@ -792,7 +792,7 @@
 					onclick={() => toggleFlip('vertical')}
 					disabled={controlsDisabled}
 				>
-					<FlipVerticalIcon size={14} />
+					<FlipVerticalIcon size={16} />
 				</Button>
 				<Button
 					size="icon"
@@ -801,7 +801,7 @@
 					onclick={toggleCropMode}
 					disabled={controlsDisabled || !hasCropDimensions}
 				>
-					<CropIcon size={14} />
+					<CropIcon size={16} />
 				</Button>
 			</div>
 		</div>

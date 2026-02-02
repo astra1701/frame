@@ -91,7 +91,7 @@
 					class={cn('size-6 transition-all', isVideoDisabled && 'pointer-events-none opacity-50')}
 					onclick={() => (activeTab = tabId)}
 				>
-					<Icon size={14} />
+					<Icon size={16} />
 				</Button>
 			{/each}
 		</div>

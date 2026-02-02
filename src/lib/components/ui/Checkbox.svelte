@@ -31,6 +31,6 @@
 		{...props}
 	/>
 	{#if checked && !indeterminate}
-		<IconCheck size={10} class="pointer-events-none absolute text-foreground opacity-100" />
+		<IconCheck size={12} class="pointer-events-none absolute text-foreground opacity-100" />
 	{/if}
 </div>
