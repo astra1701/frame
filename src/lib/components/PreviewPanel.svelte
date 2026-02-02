@@ -284,6 +284,8 @@
 	function handleTimeUpdate() {
 		if (videoRef) {
 			currentTime = videoRef.currentTime;
+			if (dragging) return;
+
 			if (currentTime >= endValue) {
 				videoRef.pause();
 				isPlaying = false;
