@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Code Architecture:** Refactored the monolithic `conversion.rs` (1712 lines) into a modular structure with dedicated files for types, error handling, manager logic, FFmpeg argument building, media probing, and Tauri commands. Improves maintainability without changing public API.
 
+### Fixed
+
+- **Preview Panel:** Trim slider and timecode inputs are now disabled after conversion completes, preventing pointless edits to already-processed files.
+
 ## [0.18.0] - 2026-02-02
 
 ### Added

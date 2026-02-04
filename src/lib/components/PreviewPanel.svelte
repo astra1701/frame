@@ -722,10 +722,13 @@
 
 	<div class="mt-4 px-2">
 		<div
-			class="relative mb-6 h-8 cursor-pointer select-none"
+			class="relative mb-6 h-8 select-none"
+			class:cursor-pointer={!controlsDisabled}
+			class:pointer-events-none={controlsDisabled}
+			class:opacity-50={controlsDisabled}
 			bind:this={sliderRef}
 			role="presentation"
-			onmousedown={(e) => e.target === sliderRef && seekTo(e)}
+			onmousedown={(e) => !controlsDisabled && e.target === sliderRef && seekTo(e)}
 		>
 			<div
 				class="pointer-events-none absolute top-1/2 left-0 h-1.5 w-full -translate-y-1/2 overflow-hidden rounded-full bg-gray-alpha-100"
@@ -743,19 +746,21 @@
 			></div>
 
 			<div
-				class="absolute top-1/2 z-20 -ml-2 flex h-4 w-4 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-ds-blue-600 bg-background shadow-lg"
+				class="absolute top-1/2 z-20 -ml-2 flex h-4 w-4 -translate-y-1/2 items-center justify-center rounded-full border border-ds-blue-600 bg-background shadow-lg"
+				class:cursor-ew-resize={!controlsDisabled}
 				style="left: {(startValue / duration) * 100}%"
 				role="presentation"
-				onmousedown={(e) => handleMouseDown(e, 'start')}
+				onmousedown={(e) => !controlsDisabled && handleMouseDown(e, 'start')}
 			>
 				<div class="h-1.5 w-1.5 rounded-full bg-ds-blue-600"></div>
 			</div>
 
 			<div
-				class="absolute top-1/2 z-20 -ml-2 flex h-4 w-4 -translate-y-1/2 cursor-ew-resize items-center justify-center rounded-full border border-ds-blue-600 bg-background shadow-lg"
+				class="absolute top-1/2 z-20 -ml-2 flex h-4 w-4 -translate-y-1/2 items-center justify-center rounded-full border border-ds-blue-600 bg-background shadow-lg"
+				class:cursor-ew-resize={!controlsDisabled}
 				style="left: {(endValue / duration) * 100}%"
 				role="presentation"
-				onmousedown={(e) => handleMouseDown(e, 'end')}
+				onmousedown={(e) => !controlsDisabled && handleMouseDown(e, 'end')}
 			>
 				<div class="h-1.5 w-1.5 rounded-full bg-ds-blue-600"></div>
 			</div>
@@ -768,6 +773,7 @@
 					<TimecodeInput
 						class="w-32"
 						value={startValue}
+						disabled={controlsDisabled}
 						onchange={(val) => {
 							if (val >= 0 && val < endValue) {
 								startValue = val;
@@ -782,6 +788,7 @@
 					<TimecodeInput
 						class="w-32"
 						value={endValue}
+						disabled={controlsDisabled}
 						onchange={(val) => {
 							if (val > startValue && val <= duration) {
 								endValue = val;
