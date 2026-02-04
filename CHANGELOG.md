@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Native Dialogs:** Implemented a unified `askNativeDialog` system for cross-platform confirmation messages. Includes specialized macOS support via a hidden helper window to prevent the main HUD window's rounded corners from flickering during dialog display, ensuring a consistent visual experience across the entire app.
+
 ### Changed
 
 - **Code Architecture:** Refactored the monolithic `conversion.rs` (1712 lines) into a modular structure with dedicated files for types, error handling, manager logic, FFmpeg argument building, media probing, and Tauri commands. Improves maintainability without changing public API.
+- **Styling:** Cleaned up `src/routes/layout.css` by removing unused CSS classes and optimizing the global stylesheet.
 
 ### Fixed
 
