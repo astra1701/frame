@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Native Dialogs:** Implemented a unified `askNativeDialog` system for cross-platform confirmation messages. Includes specialized macOS support via a hidden `always_on_top` helper window to ensure dialogs stay above the main HUD window without breaking visual effects or passing clicks to background applications.
 - **Visual Feedback:** Added a global background overlay with backdrop blur that automatically activates whenever a native file or message dialog is open, blocking interactions with the main window while the dialog is active.
+- **Error Reporting:** Conversion failures (e.g., hardware encoder issues) now display a native error dialog with the failure reason instead of silently failing. Error messages are also logged to the conversion log panel.
 
 ### Changed
 

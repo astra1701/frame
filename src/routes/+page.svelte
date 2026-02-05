@@ -51,7 +51,7 @@
 	import { initCapabilities } from '$lib/stores/capabilities.svelte';
 	import { checkForAppUpdate, installAppUpdate } from '$lib/services/update';
 	import { marked } from 'marked';
-	import { openNativeFileDialog } from '$lib/services/dialog';
+	import { openNativeFileDialog, askNativeDialog } from '$lib/services/dialog';
 
 	let files = $state<FileItem[]>([]);
 	let selectedFileId = $state<string | null>(null);
@@ -266,7 +266,21 @@
 				checkAllDone();
 			},
 			(payload) => {
-				files = files.map((f) => (f.id === payload.id ? { ...f, status: FileStatus.ERROR } : f));
+				files = files.map((f) =>
+					f.id === payload.id
+						? { ...f, status: FileStatus.ERROR, conversionError: payload.error }
+						: f
+				);
+
+				// Show native error dialog
+				const failedFile = files.find((f) => f.id === payload.id);
+				askNativeDialog({
+					title: $_('errors.conversionFailed'),
+					message: `${failedFile?.name ?? 'File'}: ${payload.error}`,
+					kind: 'error',
+					okLabel: $_('common.close')
+				});
+
 				checkAllDone();
 			},
 			(payload) => {

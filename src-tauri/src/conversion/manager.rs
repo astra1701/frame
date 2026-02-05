@@ -3,8 +3,10 @@ use std::sync::{
     Arc, Mutex,
     atomic::{AtomicUsize, Ordering},
 };
-use tauri::AppHandle;
+use tauri::{AppHandle, Emitter};
 use tokio::sync::mpsc;
+
+use crate::conversion::types::{ErrorPayload, LogPayload};
 
 #[cfg(unix)]
 use libc;
@@ -25,14 +27,12 @@ use crate::conversion::error::ConversionError;
 use crate::conversion::ffmpeg::run_ffmpeg_worker;
 use crate::conversion::types::{ConversionTask, DEFAULT_MAX_CONCURRENCY};
 
-
 pub enum ManagerMessage {
     Enqueue(ConversionTask),
     TaskStarted(String, u32),
     TaskCompleted(String),
     TaskError(String, ConversionError),
 }
-
 
 pub struct ConversionManager {
     pub(crate) sender: mpsc::Sender<ManagerMessage>,
@@ -88,6 +88,23 @@ impl ConversionManager {
                     }
                     ManagerMessage::TaskError(id, err) => {
                         eprintln!("Task {} failed: {}", id, err);
+
+                        let _ = app.emit(
+                            "conversion-log",
+                            LogPayload {
+                                id: id.clone(),
+                                line: format!("[ERROR] {}", err),
+                            },
+                        );
+
+                        let _ = app.emit(
+                            "conversion-error",
+                            ErrorPayload {
+                                id: id.clone(),
+                                error: err.to_string(),
+                            },
+                        );
+
                         running_tasks.remove(&id);
                         {
                             let mut tasks = active_tasks_loop.lock().unwrap();
@@ -243,7 +260,6 @@ impl ConversionManager {
         }
     }
 }
-
 
 #[cfg(windows)]
 unsafe fn windows_suspend_resume(pid: u32, suspend: bool) -> Result<(), ConversionError> {
