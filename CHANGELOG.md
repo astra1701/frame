@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.18.10] - 2026-02-05
+
 ### Added
 
 - **Native Dialogs:** Implemented a unified `askNativeDialog` system for cross-platform confirmation messages. Includes specialized macOS support via a hidden `always_on_top` helper window to ensure dialogs stay above the main HUD window without breaking visual effects or passing clicks to background applications.
@@ -419,7 +421,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic media metadata probing via FFprobe.
 - Preset-based configuration system.
 
-[Unreleased]: https://github.com/66HEX/frame/compare/0.18.0...HEAD
+[Unreleased]: https://github.com/66HEX/frame/compare/0.18.1...HEAD
+[0.18.1]: https://github.com/66HEX/frame/compare/0.18.0...0.18.1
 [0.18.0]: https://github.com/66HEX/frame/compare/0.17.0...0.18.0
 [0.17.0]: https://github.com/66HEX/frame/compare/0.16.0...0.17.0
 [0.16.0]: https://github.com/66HEX/frame/compare/0.15.0...0.16.0
