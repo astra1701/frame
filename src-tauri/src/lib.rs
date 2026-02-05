@@ -101,16 +101,18 @@ pub fn run() {
                     WebviewUrl::App("dialog-host.html".into()),
                 )
                 .title("Dialog Host")
-                .inner_size(10.0, 10.0)
+                .inner_size(1.0, 1.0)
                 .resizable(false)
                 .decorations(false)
                 .fullscreen(false)
                 .visible(false)
+                .always_on_top(true)
+                .transparent(true)
                 .skip_taskbar(true)
                 .build()
                 .unwrap();
 
-                let _ = dialog_host.set_size(LogicalSize::new(10.0, 10.0));
+                let _ = dialog_host.set_size(LogicalSize::new(1.0, 1.0));
             }
 
             app.manage(conversion::ConversionManager::new(app.handle().clone()));
@@ -135,7 +137,7 @@ pub fn run() {
             capabilities::get_available_encoders,
             dialog::open_native_file_dialog,
             dialog::ask_native_dialog,
-            close_splash
+            close_splash,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

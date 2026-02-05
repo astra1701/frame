@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Native Dialogs:** Implemented a unified `askNativeDialog` system for cross-platform confirmation messages. Includes specialized macOS support via a hidden helper window to prevent the main HUD window's rounded corners from flickering during dialog display, ensuring a consistent visual experience across the entire app.
+- **Native Dialogs:** Implemented a unified `askNativeDialog` system for cross-platform confirmation messages. Includes specialized macOS support via a hidden `always_on_top` helper window to ensure dialogs stay above the main HUD window without breaking visual effects or passing clicks to background applications.
+- **Visual Feedback:** Added a global background overlay with backdrop blur that automatically activates whenever a native file or message dialog is open, blocking interactions with the main window while the dialog is active.
 
 ### Changed
 
