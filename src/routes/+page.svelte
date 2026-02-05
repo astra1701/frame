@@ -272,7 +272,6 @@
 						: f
 				);
 
-				// Show native error dialog
 				const failedFile = files.find((f) => f.id === payload.id);
 				askNativeDialog({
 					title: $_('errors.conversionFailed'),
