@@ -183,7 +183,7 @@
 				{#each ML_UPSCALING_OPTIONS as opt (opt.id)}
 					<Button
 						variant={(config.mlUpscale || 'none') === opt.id ? 'selected' : 'outline'}
-						onclick={() => onUpdate({ mlUpscale: opt.id as any })}
+						onclick={() => onUpdate({ mlUpscale: opt.id as ConversionConfig['mlUpscale'] })}
 						{disabled}
 						class="w-full"
 					>

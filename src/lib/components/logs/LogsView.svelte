@@ -2,6 +2,10 @@
 	import { FileStatus, type FileItem } from '$lib/types';
 	import { cn } from '$lib/utils/cn';
 	import { _ } from '$lib/i18n';
+	import VirtualList from '@humanspeak/svelte-virtual-list';
+	import type { SvelteVirtualListScrollOptions } from '@humanspeak/svelte-virtual-list';
+	import { tick, untrack } from 'svelte';
+	import { IconArrowDown } from '$lib/icons';
 
 	let {
 		logs,
@@ -12,7 +16,9 @@
 	} = $props();
 
 	let selectedLogFileId = $state<string | null>(null);
-	let logContainer = $state<HTMLDivElement>();
+	let virtualListRef = $state<{
+		scroll: (options: SvelteVirtualListScrollOptions) => void;
+	} | null>(null);
 
 	let activeFiles = $derived(files.filter((f) => logs[f.id] || f.status !== FileStatus.IDLE));
 
@@ -23,24 +29,69 @@
 	});
 
 	let currentLogs = $derived(selectedLogFileId ? logs[selectedLogFileId] || [] : []);
-	let userHasScrolledUp = $state(false);
+	let logsWithIndex = $derived(currentLogs.map((line, i) => ({ line, index: i + 1 })));
 
-	function handleScroll() {
-		if (!logContainer) return;
-		const { scrollTop, scrollHeight, clientHeight } = logContainer;
-		const isAtBottom = scrollHeight - scrollTop - clientHeight < 50;
-		userHasScrolledUp = !isAtBottom;
+	let shouldStickToBottom = $state(true);
+	let wrapperDiv = $state<HTMLDivElement>();
+
+	function handleScroll(e: Event) {
+		const target = e.target as HTMLDivElement;
+		const { scrollTop, scrollHeight, clientHeight } = target;
+
+		const isAtBottom = scrollHeight - scrollTop - clientHeight < 25;
+		shouldStickToBottom = isAtBottom;
+	}
+
+	function scrollToBottom() {
+		if (virtualListRef && logsWithIndex.length > 0) {
+			shouldStickToBottom = true;
+			virtualListRef.scroll({ index: logsWithIndex.length - 1, align: 'bottom' });
+		}
 	}
 
 	$effect(() => {
-		if (currentLogs.length && logContainer && !userHasScrolledUp) {
-			logContainer.scrollTop = logContainer.scrollHeight;
+		if (virtualListRef && wrapperDiv) {
+			const viewport = wrapperDiv.querySelector('.logs-viewport');
+			if (viewport) {
+				viewport.addEventListener('scroll', handleScroll);
+				return () => viewport.removeEventListener('scroll', handleScroll);
+			}
 		}
 	});
 
 	$effect(() => {
-		if (selectedLogFileId) {
-			userHasScrolledUp = false;
+		const length = logsWithIndex.length;
+		if (length > 0 && virtualListRef) {
+			const stick = untrack(() => shouldStickToBottom);
+			if (stick || length === 1) {
+				tick().then(() => {
+					if (untrack(() => shouldStickToBottom) && virtualListRef) {
+						virtualListRef.scroll({
+							index: length - 1,
+							align: 'bottom',
+							smoothScroll: false
+						});
+					}
+				});
+			}
+		}
+	});
+
+	$effect(() => {
+		const id = selectedLogFileId;
+		if (id) {
+			untrack(() => {
+				shouldStickToBottom = true;
+				if (virtualListRef && logsWithIndex.length > 0) {
+					tick().then(() => {
+						virtualListRef?.scroll({
+							index: logsWithIndex.length - 1,
+							align: 'bottom',
+							smoothScroll: false
+						});
+					});
+				}
+			});
 		}
 	});
 </script>
@@ -53,7 +104,7 @@
 			<button
 				onclick={() => (selectedLogFileId = file.id)}
 				class={cn(
-					'shrink-0  text-[10px] font-medium tracking-widest uppercase transition-all',
+					'shrink-0 text-[10px] font-medium tracking-widest uppercase transition-all',
 					selectedLogFileId === file.id
 						? 'text-blue-600'
 						: 'text-gray-alpha-600 hover:text-foreground'
@@ -70,33 +121,44 @@
 		{/if}
 	</div>
 
-	<div class="relative flex flex-1 flex-col overflow-hidden">
+	<div class="relative flex flex-1 flex-col overflow-hidden" bind:this={wrapperDiv}>
 		{#if activeFiles.length > 0}
-			<div
-				class="flex-1 overflow-y-auto py-4 leading-relaxed text-foreground"
-				bind:this={logContainer}
-				onscroll={handleScroll}
-			>
-				{#if currentLogs.length > 0}
-					<div class="flex flex-col">
-						{#each currentLogs as line, i (i)}
-							<div class="group -mx-1 flex rounded px-1 py-1 text-[10px] hover:bg-gray-alpha-100">
+			<div class="relative h-full flex-1 leading-relaxed text-foreground">
+				{#if logsWithIndex.length > 0}
+					<VirtualList
+						items={logsWithIndex}
+						bind:this={virtualListRef}
+						viewportClass="logs-viewport"
+						defaultEstimatedItemHeight={24}
+					>
+						{#snippet renderItem(item)}
+							<div class="group -mx-1 flex rounded px-1 py-0.5 text-[10px] hover:bg-gray-alpha-100">
 								<span
 									class="mr-3 w-8 shrink-0 pt-[0.5px] text-right text-[10px] text-gray-alpha-400 select-none"
-									>{i + 1}</span
+									>{item.index}</span
 								>
-								<span class="break-all whitespace-nowrap text-gray-alpha-600">{line}</span>
+								<span class="break-all whitespace-nowrap text-gray-alpha-600">{item.line}</span>
 							</div>
-						{/each}
-					</div>
+						{/snippet}
+					</VirtualList>
 				{:else}
 					<div
 						class="flex h-full flex-col items-center justify-center space-y-2 text-gray-alpha-600 select-none"
 					>
 						<div class="text-[10px] font-medium tracking-widest uppercase">
-							Process started, waiting for output...
+							Waiting for output...
 						</div>
 					</div>
+				{/if}
+
+				{#if !shouldStickToBottom}
+					<button
+						onclick={scrollToBottom}
+						class="absolute right-4 bottom-4 z-10 rounded-full bg-blue-600 p-2 text-foreground shadow-lg backdrop-blur-md transition-all"
+						title="Scroll to bottom"
+					>
+						<IconArrowDown size={14} />
+					</button>
 				{/if}
 			</div>
 		{:else}
@@ -110,3 +172,10 @@
 		{/if}
 	</div>
 </div>
+
+<style>
+	:global(.logs-viewport) {
+		height: 100% !important;
+		overflow-y: auto !important;
+	}
+</style>
