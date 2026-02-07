@@ -235,9 +235,9 @@ pub fn build_ffmpeg_args(input: &str, output: &str, config: &ConversionConfig) -
                 }
             } else {
                 match config.resolution.as_str() {
-                    "1080p" => format!("scale=-1:1080{}", algorithm),
-                    "720p" => format!("scale=-1:720{}", algorithm),
-                    "480p" => format!("scale=-1:480{}", algorithm),
+                    "1080p" => format!("scale=-2:1080{}", algorithm),
+                    "720p" => format!("scale=-2:720{}", algorithm),
+                    "480p" => format!("scale=-2:480{}", algorithm),
                     _ => "scale=-1:-1".to_string(),
                 }
             };

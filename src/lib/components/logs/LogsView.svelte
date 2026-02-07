@@ -123,7 +123,7 @@
 
 	<div class="relative flex flex-1 flex-col overflow-hidden" bind:this={wrapperDiv}>
 		{#if activeFiles.length > 0}
-			<div class="relative h-full flex-1 leading-relaxed text-foreground">
+			<div class="relative h-full flex-1 p-0.5 leading-relaxed text-foreground">
 				{#if logsWithIndex.length > 0}
 					<VirtualList
 						items={logsWithIndex}

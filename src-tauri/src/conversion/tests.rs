@@ -79,7 +79,7 @@ mod tests {
         let args = build_ffmpeg_args("in.mp4", "out.mp4", &config);
 
         let vf_index = args.iter().position(|r| r == "-vf").unwrap();
-        assert_eq!(args[vf_index + 1], "scale=-1:1080:flags=bicubic");
+        assert_eq!(args[vf_index + 1], "scale=-2:1080:flags=bicubic");
     }
 
     #[test]
@@ -90,7 +90,18 @@ mod tests {
         let args = build_ffmpeg_args("in.mp4", "out.mp4", &config);
 
         let vf_index = args.iter().position(|r| r == "-vf").unwrap();
-        assert_eq!(args[vf_index + 1], "scale=-1:720:flags=bicubic");
+        assert_eq!(args[vf_index + 1], "scale=-2:720:flags=bicubic");
+    }
+
+    #[test]
+    fn test_resolution_scaling_480p() {
+        let mut config = sample_config("mp4");
+        config.resolution = "480p".into();
+
+        let args = build_ffmpeg_args("in.mp4", "out.mp4", &config);
+
+        let vf_index = args.iter().position(|r| r == "-vf").unwrap();
+        assert_eq!(args[vf_index + 1], "scale=-2:480:flags=bicubic");
     }
 
     #[test]
