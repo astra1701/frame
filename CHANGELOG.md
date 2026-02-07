@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Windows Progress Indicator:** Fixed progress percentage not updating for h264 and h264_nvenc codecs on Windows. The FFmpeg stderr parser now correctly handles Windows-style carriage return (`\r`) line separators.
 - **ML Upscale Parameter Parity:** The AI upscaling pipeline now supports all parameters from the standard conversion: rotation, flip, subtitle burn, FPS change, NVENC/VideoToolbox options, audio processing (codec, bitrate, volume, normalize, channels), metadata handling, and subtitle track selection.
 - **ML Upscale Temp Cleanup:** Temporary PNG frame files are now properly deleted when an upscaling task fails or is cancelled from the UI.
+- **Progress Reporting:** Fixed an issue where progress would remain at 0% for some files due to strict time parsing. The parser now correctly handles FFmpeg output with raw seconds or flexible time formats.
 
 ## [0.19.0] - 2026-02-07
 

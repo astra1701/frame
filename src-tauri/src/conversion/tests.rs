@@ -2,20 +2,10 @@
 mod tests {
     use crate::conversion::args::{build_ffmpeg_args, build_output_path};
     use crate::conversion::types::{ConversionConfig, MetadataConfig};
+    use crate::conversion::utils::parse_time;
 
     fn contains_args(args: &[String], expected: &[&str]) -> bool {
         expected.iter().all(|e| args.iter().any(|a| a == e))
-    }
-
-    fn parse_time(time_str: &str) -> Option<f64> {
-        let parts: Vec<&str> = time_str.split(':').collect();
-        if parts.len() != 3 {
-            return None;
-        }
-        let h: f64 = parts[0].parse().ok()?;
-        let m: f64 = parts[1].parse().ok()?;
-        let s: f64 = parts[2].parse().ok()?;
-        Some(h * 3600.0 + m * 60.0 + s)
     }
 
     fn sample_config(container: &str) -> ConversionConfig {
@@ -338,7 +328,6 @@ mod parsing_tests {
         let invalid_outputs = [
             "frame=100 fps=30 q=23.0",
             "time=invalid",
-            "time=00:00",
             "",
         ];
         for output in invalid_outputs {
@@ -383,21 +372,25 @@ mod parsing_tests {
     }
 
     #[test]
-    fn parse_time_edge_cases() {
-        assert_eq!(parse_time("00:00:00.00"), Some(0.0));
-        assert_eq!(parse_time("00:00:00.01"), Some(0.01));
-        assert_eq!(parse_time("99:59:59.99"), Some(359999.99));
+    fn parse_time_flexible_formats() {
+        // Raw seconds
+        assert_eq!(parse_time("30.5"), Some(30.5));
+        assert_eq!(parse_time("120"), Some(120.0));
+        
+        // MM:SS
+        assert_eq!(parse_time("01:30"), Some(90.0));
+        assert_eq!(parse_time("10:05.5"), Some(605.5));
+
+        // HH:MM:SS
+        assert_eq!(parse_time("01:00:00"), Some(3600.0));
         assert_eq!(parse_time("00:01:00.00"), Some(60.0));
-        assert_eq!(parse_time("01:00:00.00"), Some(3600.0));
     }
 
     #[test]
     fn parse_time_invalid_formats() {
         assert_eq!(parse_time(""), None);
-        assert_eq!(parse_time("00:00"), None);
-        assert_eq!(parse_time("1:2:3"), Some(3723.0));
-        assert_eq!(parse_time("not:a:time"), None);
-        assert_eq!(parse_time("00:00:00:00"), None);
+        assert_eq!(parse_time("abc"), None);
+        assert_eq!(parse_time("12:34:56:78"), None);
     }
 
     #[test]

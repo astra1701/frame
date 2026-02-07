@@ -5,10 +5,10 @@ pub static FRAME_REGEX: Lazy<Regex> =
     Lazy::new(|| Regex::new(r"frame=\s*(\d+)").unwrap());
 
 pub static DURATION_REGEX: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"Duration: (\d{2}:\d{2}:\d{2}\.\d{2})").unwrap());
+    Lazy::new(|| Regex::new(r"Duration:\s*(\d+(?::\d+){0,3}(?:\.\d+)?)").unwrap());
 
 pub static TIME_REGEX: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"time=(\d{2}:\d{2}:\d{2}\.\d{2})").unwrap());
+    Lazy::new(|| Regex::new(r"time=\s*(\d+(?::\d+){0,3}(?:\.\d+)?)").unwrap());
 
 pub fn parse_frame_rate_string(value: Option<&str>) -> Option<f64> {
     let value = value?.trim();
@@ -68,11 +68,19 @@ pub fn map_nvenc_preset(preset: &str) -> String {
 
 pub fn parse_time(time_str: &str) -> Option<f64> {
     let parts: Vec<&str> = time_str.split(':').collect();
-    if parts.len() != 3 {
-        return None;
+    match parts.len() {
+        1 => parts[0].parse::<f64>().ok(),
+        2 => {
+            let m: f64 = parts[0].parse().ok()?;
+            let s: f64 = parts[1].trim().parse().ok()?;
+            Some(m * 60.0 + s)
+        }
+        3 => {
+            let h: f64 = parts[0].parse().ok()?;
+            let m: f64 = parts[1].parse().ok()?;
+            let s: f64 = parts[2].trim().parse().ok()?;
+            Some(h * 3600.0 + m * 60.0 + s)
+        }
+        _ => None,
     }
-    let h: f64 = parts[0].parse().ok()?;
-    let m: f64 = parts[1].parse().ok()?;
-    let s: f64 = parts[2].parse().ok()?;
-    Some(h * 3600.0 + m * 60.0 + s)
 }
