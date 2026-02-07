@@ -133,6 +133,11 @@ brew install --cask frame
 3.  **Выполнение:** Запуск процесса конвертации через бэкенд Rust
 4.  **Мониторинг:** Просмотр логов и прогресса в реальном времени
 
+## Благодарности
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. Лицензия: [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: Лицензия: [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## Лицензия
 
 Лицензия GPLv3. Подробности в [LICENSE](../LICENSE).

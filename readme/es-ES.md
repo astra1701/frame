@@ -133,6 +133,11 @@ La forma más fácil de ejecutar Frame es descargar un paquete precompilado desd
 3.  **Ejecución:** Inicia el proceso de conversión vía backend Rust
 4.  **Monitoreo:** Ver logs en tiempo real y porcentaje de progreso en la UI
 
+## Agradecimientos
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. Licenciado bajo [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: Licenciado bajo [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## Licencia
 
 Licencia GPLv3. Ver [LICENSE](../LICENSE) para más detalles.

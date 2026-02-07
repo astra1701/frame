@@ -133,6 +133,11 @@ Der einfachste Weg, Frame auszuführen, ist das Herunterladen eines vorgefertigt
 3.  **Ausführung:** Konvertierungsprozess über Rust-Backend starten
 4.  **Überwachung:** Echtzeit-Logs und Fortschrittsanzeige in der UI
 
+## Danksagungen
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. Lizenziert unter [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: Lizenziert unter [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## Lizenz
 
 GPLv3-Lizenz. Siehe [LICENSE](../LICENSE) für Details.

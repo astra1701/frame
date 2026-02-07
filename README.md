@@ -180,6 +180,11 @@ bun run setup:ffmpeg
   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=66HEX/frame&type=timeline" />
 </picture>
 
+## Acknowledgments & Third-Party Code
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. Licensed under [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: Licensed under [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## License
 
 GPLv3 License. See [LICENSE](LICENSE) for details.

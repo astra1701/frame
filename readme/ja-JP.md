@@ -133,6 +133,11 @@ Frame を実行する最も簡単な方法は [GitHub Releases](https://github.c
 3.  **実行：** Rust バックエンド経由で変換プロセスを開始
 4.  **監視：** UI でリアルタイムログと進捗率を確認
 
+## 謝辞
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. ライセンス: [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: ライセンス: [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## ライセンス
 
 GPLv3 ライセンス。詳細は [LICENSE](../LICENSE) を参照。

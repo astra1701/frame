@@ -133,6 +133,11 @@ brew install --cask frame
 3.  **执行：** 通过 Rust 后端启动转换进程
 4.  **监控：** 在界面中查看实时日志和进度百分比
 
+## 致谢
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. 许可协议: [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: 许可协议: [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## 许可证
 
 GPLv3 许可证。详见 [LICENSE](../LICENSE)。

@@ -133,6 +133,11 @@ Le moyen le plus simple d'exécuter Frame est de télécharger un package depuis
 3.  **Exécution :** Lancer le processus de conversion via le backend Rust
 4.  **Monitoring :** Voir les logs en temps réel et le pourcentage de progression
 
+## Remerciements
+
+- **Real-ESRGAN**: Copyright (c) 2021, Xintao Wang. Sous licence [BSD 3-Clause](https://github.com/xinntao/Real-ESRGAN/blob/master/LICENSE).
+- **FFmpeg**: Sous licence [GPLv3](https://www.ffmpeg.org/legal.html).
+
 ## Licence
 
 Licence GPLv3. Voir [LICENSE](../LICENSE) pour les détails.
