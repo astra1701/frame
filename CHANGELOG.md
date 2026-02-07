@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AI Upscaling:** Integrated AI-powered video upscaling using Real-ESRGAN models (x2, x4) for high-quality resolution enhancement.
 - **Features Architecture:** Introduced a new modular architecture in `src/lib/features/` to separate business logic from UI components.
   - `conversion`: Logic for queue management, presets, and conversion progress.
   - `files`: Logic for file list management and drag-and-drop operations.
@@ -15,7 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Component Reorganization:** Improved project structure by organizing components into logical subdirectories (`file-list`, `layout`, `logs`).
 - **Unified Exports:** Implemented index files for feature modules and component groups to simplify imports and improve maintainability.
 
+### Performance
+- **Log Virtualization:** Implemented a virtualized list for the application logs, enabling smooth scrolling and rendering of thousands of entries without UI lag.
+
 ### Fixed
+- **Process Lifecycle:** Resolved a "zombie process" issue on macOS where the application would remain running in the dock after closing the main window, due to hidden helper windows keeps the event loop alive.
 - **UI Contrast:** Fixed text contrast in `LogsView` to improve readability.
 
 ## [0.18.1] - 2026-02-05
