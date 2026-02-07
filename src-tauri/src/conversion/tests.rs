@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::conversion::ffmpeg::{build_ffmpeg_args, build_output_path};
+    use crate::conversion::args::{build_ffmpeg_args, build_output_path};
     use crate::conversion::types::{ConversionConfig, MetadataConfig};
 
     fn contains_args(args: &[String], expected: &[&str]) -> bool {
