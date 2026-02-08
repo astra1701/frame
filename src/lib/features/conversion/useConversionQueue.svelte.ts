@@ -135,8 +135,40 @@ export function createConversionQueue(callbacks: ConversionCallbacks) {
 			})
 		);
 
+		const enqueueErrors: Record<string, string> = {};
+
 		for (const file of pendingFiles) {
-			await startConversionService(file.id, file.path, file.config, file.outputName);
+			try {
+				await startConversionService(file.id, file.path, file.config, file.outputName);
+			} catch (error) {
+				const message = error instanceof Error ? error.message : String(error);
+				enqueueErrors[file.id] = message;
+			}
+		}
+
+		const errorIds = Object.keys(enqueueErrors);
+		if (errorIds.length > 0) {
+			callbacks.onFilesUpdate((files) =>
+				files.map((f) =>
+					errorIds.includes(f.id)
+						? {
+								...f,
+								status: FileStatus.ERROR,
+								progress: 0,
+								conversionError: enqueueErrors[f.id]
+							}
+						: f
+				)
+			);
+			callbacks.onLogsUpdate((logs) => {
+				const next = { ...logs };
+				errorIds.forEach((id) => {
+					const current = next[id] || [];
+					next[id] = [...current, `[ERROR] Failed to queue conversion: ${enqueueErrors[id]}`];
+				});
+				return next;
+			});
+			checkAllDone();
 		}
 	}
 
