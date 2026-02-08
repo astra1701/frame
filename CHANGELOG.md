@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Settings Accessibility:** Users can now switch between all configuration tabs (Source, Output, Video, etc.) even after a file has been converted, while maintaining the locked state of individual settings.
+- **Store Convention Consistency:** `updateStore` now uses the same object-based `$state` pattern as other frontend stores, reducing architectural divergence in shared state management.
 
 ## [0.20.0] - 2026-02-08
 
