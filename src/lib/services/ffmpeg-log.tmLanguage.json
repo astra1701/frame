@@ -3,288 +3,421 @@
 	"name": "ffmpeg-log",
 	"scopeName": "source.ffmpeg-log",
 	"patterns": [
-		{
-			"include": "#phase-prefix"
-		},
-		{
-			"include": "#error-line"
-		},
-		{
-			"include": "#warning"
-		},
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#stream-info"
-		},
-		{
-			"include": "#timestamps"
-		},
-		{
-			"include": "#dates"
-		},
-		{
-			"include": "#time-duration"
-		},
-		{
-			"include": "#file-path"
-		},
-		{
-			"include": "#hex-addresses"
-		},
-		{
-			"include": "#ffmpeg-versions"
-		},
-		{
-			"include": "#chroma-subsampling"
-		},
-		{
-			"include": "#bit-depth"
-		},
-		{
-			"include": "#color-spaces"
-		},
-		{
-			"include": "#aspect-ratios"
-		},
-		{
-			"include": "#na-values"
-		},
-		{
-			"include": "#numbers"
-		},
-		{
-			"include": "#key-value"
-		},
-		{
-			"include": "#brackets"
-		},
-		{
-			"include": "#ffmpeg-libs"
-		},
-		{
-			"include": "#pixel-formats"
-		},
-		{
-			"include": "#profiles"
-		},
-		{
-			"include": "#percentages"
-		},
-		{
-			"include": "#urls"
-		},
-		{
-			"include": "#cli-flags"
-		},
-		{
-			"include": "#container-formats"
-		},
-		{
-			"include": "#cpu-capabilities"
-		},
-		{
-			"include": "#stream-markers"
-		},
-		{
-			"include": "#fourcc-codes"
-		},
-		{
-			"include": "#help-message"
-		},
-		{
-			"include": "#arrows"
-		}
+		{ "include": "#banner-line" },
+		{ "include": "#input-output-line" },
+		{ "include": "#stream-mapping-header" },
+		{ "include": "#stream-mapping-line" },
+		{ "include": "#stream-line" },
+		{ "include": "#metadata-header" },
+		{ "include": "#metadata-kv-line" },
+		{ "include": "#progress-line" },
+		{ "include": "#module-prefix-line" },
+		{ "include": "#control-hints" },
+		{ "include": "#severity" },
+		{ "include": "#time-and-duration" },
+		{ "include": "#rates-units" },
+		{ "include": "#resolution" },
+		{ "include": "#aspect" },
+		{ "include": "#codecs" },
+		{ "include": "#pix-fmts" },
+		{ "include": "#colors" },
+		{ "include": "#container-formats" },
+		{ "include": "#stream-disposition" },
+		{ "include": "#flags" },
+		{ "include": "#paths-urls" },
+		{ "include": "#hex" },
+		{ "include": "#quoted" },
+		{ "include": "#fallback-kv" },
+		{ "include": "#percent" },
+		{ "include": "#numbers-soft" }
 	],
 	"repository": {
-		"phase-prefix": {
+		"progress-line": {
+			"name": "meta.progress.ffmpeg-log",
+			"begin": "^(?=\\s*(?:frame|fps|q|L?size|time|bitrate|speed|dup|drop|total_size|out_time|out_time_ms|progress|stream_\\d+_\\d+_(?:q|fps))\\s*=)",
+			"end": "$",
 			"patterns": [
 				{
-					"match": "^\\[DECODE\\]",
-					"name": "entity.name.tag.decode.ffmpeg-log"
+					"match": "\\b(?:frame|fps|q|L?size|time|bitrate|speed|dup|drop|total_size|out_time|out_time_ms|progress|stream_\\d+_\\d+_(?:q|fps))\\b(?=\\s*=)",
+					"name": "variable.other.progress-key.ffmpeg-log"
 				},
+				{ "match": "=", "name": "keyword.operator.assignment.ffmpeg-log" },
+				{ "include": "#time-and-duration" },
+				{ "include": "#rates-units" },
+				{ "include": "#severity" },
+				{ "include": "#percent" },
+				{ "include": "#numbers-soft" }
+			]
+		},
+
+		"module-prefix-line": {
+			"name": "meta.module-prefix.ffmpeg-log",
+			"begin": "^(\\s*)(\\[[^\\]]+\\])",
+			"beginCaptures": {
+				"2": { "name": "entity.name.tag.module.ffmpeg-log" }
+			},
+			"end": "$",
+			"patterns": [
+				{ "include": "#severity" },
+				{ "include": "#time-and-duration" },
+				{ "include": "#rates-units" },
+				{ "include": "#codecs" },
+				{ "include": "#pix-fmts" },
+				{ "include": "#colors" },
+				{ "include": "#flags" },
+				{ "include": "#paths-urls" },
+				{ "include": "#hex" },
+				{ "include": "#quoted" },
+				{ "include": "#percent" },
+				{ "include": "#fallback-kv" },
+				{ "include": "#numbers-soft" }
+			]
+		},
+
+		"input-output-line": {
+			"name": "meta.io.ffmpeg-log",
+			"begin": "^\\s*(Input|Output)\\s+#(\\d+),\\s*",
+			"beginCaptures": {
+				"1": { "name": "keyword.control.io-kind.ffmpeg-log" },
+				"2": { "name": "constant.numeric.io-index.ffmpeg-log" }
+			},
+			"end": "$",
+			"patterns": [
+				{ "match": "\\b(?:from|to)\\b", "name": "keyword.operator.io-direction.ffmpeg-log" },
+				{ "include": "#container-formats" },
+				{ "include": "#paths-urls" },
+				{ "include": "#quoted" },
+				{ "include": "#time-and-duration" },
+				{ "include": "#rates-units" },
+				{ "include": "#resolution" },
+				{ "include": "#aspect" },
+				{ "include": "#codecs" },
+				{ "include": "#pix-fmts" },
+				{ "include": "#colors" },
+				{ "include": "#stream-disposition" },
+				{ "include": "#flags" },
+				{ "include": "#hex" },
+				{ "include": "#percent" },
+				{ "include": "#numbers-soft" }
+			]
+		},
+
+		"stream-line": {
+			"name": "meta.stream.ffmpeg-log",
+			"begin": "^\\s*(Stream\\s+#\\d+:\\d+(?:\\[[^\\]]+\\])?(?:\\([^\\)]+\\))?:)",
+			"beginCaptures": {
+				"1": { "name": "constant.language.stream-id.ffmpeg-log" }
+			},
+			"end": "$",
+			"patterns": [
 				{
-					"match": "^\\[UPSCALE\\]",
-					"name": "entity.name.tag.upscale.ffmpeg-log"
+					"match": "\\b(Video|Audio|Subtitle|Data|Attachment)\\b",
+					"name": "storage.type.stream-kind.ffmpeg-log"
 				},
+				{ "include": "#codecs" },
+				{ "include": "#pix-fmts" },
+				{ "include": "#resolution" },
+				{ "include": "#rates-units" },
+				{ "include": "#time-and-duration" },
+				{ "include": "#colors" },
+				{ "include": "#aspect" },
+				{ "include": "#stream-disposition" },
+				{ "include": "#container-formats" },
+				{ "include": "#severity" },
+				{ "include": "#hex" },
+				{ "include": "#quoted" },
+				{ "include": "#percent" }
+			]
+		},
+
+		"stream-mapping-header": {
+			"patterns": [
 				{
-					"match": "^\\[ENCODE\\]",
-					"name": "entity.name.tag.encode.ffmpeg-log"
-				},
-				{
-					"match": "^\\[ERROR\\]",
-					"name": "invalid.illegal.error.ffmpeg-log"
+					"match": "^\\s*Stream mapping:\\s*$",
+					"name": "entity.name.section.mapping.ffmpeg-log"
 				}
 			]
 		},
-		"error-line": {
-			"match": "(?i)(error|failed|cannot|unable|invalid|not found|no such)",
-			"name": "invalid.illegal.ffmpeg-log"
-		},
-		"warning": {
-			"match": "(?i)(warning|deprecated|discarding)",
-			"name": "markup.changed.warning.ffmpeg-log"
-		},
-		"keywords": {
+
+		"stream-mapping-line": {
+			"name": "meta.mapping.ffmpeg-log",
+			"begin": "^\\s*(?=Stream\\s+#\\d+:\\d+(?:\\[[^\\]]+\\])?(?:\\([^\\)]+\\))?\\s*(?:->|→)\\s*#\\d+:\\d+(?:\\[[^\\]]+\\])?(?:\\([^\\)]+\\))?)",
+			"end": "$",
 			"patterns": [
 				{
-					"match": "\\b(Input|cabac|deblock|analyse|me|subme|me_range|fast_pskip|options|chroma_qp_offset|threads|lookahead_threads|sliced_threads|nr|decimate|interlaced|bluray_compat|constrained_intra|bframes|b_pyramid|b_adapt|b_bias|weightb|open_gop|weightp|keyint|keyint_min|scenecut|intra_refresh|rc_lookahead|rc|mbtree|crf|qcomp|qpmin|qpmax|qpstep|ip_ratio|aq|chroma_me|trellis|8x8dct|cqm|deadzone|psy|psy_rd|mixed_ref|Output|Stream|coded|transform|intra|inter|Weighted|tbn|tbr|vbv_delay|cpu|capabilities|P-Frames|i8c|i16|i8|i4|ddl|ddr|vr|hd|vl|hu|y|uvDC|uvAC|Y|UV|dc|h|v|p|Duration|Start|Video|Audio|Subtitle|Metadata|Chapter|Program|encoder|cpb|decoder|frame|fps|bitrate|start|speed|Side|data|mapping|size|time|dup|skip|L0|L1|BI|direct|P16|B16|I16|consecutive|B-frames|video|audio|subtitle|other|streams|headers|muxing|overhead|global|Avg|QP|mb|I|P|B|Lsize|Qavg|buffer|ref|drop|q|handler_name|vendor_id|creation_time|major_brand|minor_version|compatible_brands|queueC|queueG|queueT|bugsbn1|bugbilz|bugcopc|bugihfa|subgroup|basic|vote|ballot|shuffle|elapsed|from|using)\\b",
-					"name": "keyword.other.ffmpeg-log"
+					"match": "\\bStream\\s+#\\d+:\\d+(?:\\[[^\\]]+\\])?(?:\\([^\\)]+\\))?(?=\\s|$)|#\\d+:\\d+(?:\\[[^\\]]+\\])?(?:\\([^\\)]+\\))?(?=\\s|$)",
+					"name": "constant.language.stream-id.ffmpeg-log"
+				},
+				{ "match": "->|→", "name": "punctuation.separator.mapping.ffmpeg-log" },
+				{ "include": "#codecs" },
+				{ "include": "#severity" },
+				{ "include": "#quoted" },
+				{ "include": "#percent" },
+				{ "include": "#numbers-soft" }
+			]
+		},
+
+		"metadata-header": {
+			"patterns": [
+				{ "match": "^\\s*Metadata:\\s*$", "name": "entity.name.section.metadata.ffmpeg-log" },
+				{ "match": "^\\s*Side data:\\s*$", "name": "entity.name.section.metadata.ffmpeg-log" }
+			]
+		},
+
+		"metadata-kv-line": {
+			"begin": "^\\s{2,}([A-Za-z_][\\w.-]*)\\s*(:)\\s*",
+			"beginCaptures": {
+				"1": { "name": "variable.other.metadata-key.ffmpeg-log" },
+				"2": { "name": "punctuation.separator.key-value.ffmpeg-log" }
+			},
+			"end": "$",
+			"patterns": [
+				{ "include": "#time-and-duration" },
+				{ "include": "#rates-units" },
+				{ "include": "#resolution" },
+				{ "include": "#aspect" },
+				{ "include": "#codecs" },
+				{ "include": "#pix-fmts" },
+				{ "include": "#colors" },
+				{ "include": "#container-formats" },
+				{ "include": "#stream-disposition" },
+				{ "include": "#flags" },
+				{ "include": "#paths-urls" },
+				{ "include": "#hex" },
+				{ "include": "#quoted" },
+				{ "include": "#severity" },
+				{ "include": "#percent" },
+				{ "include": "#numbers-soft" }
+			]
+		},
+
+		"banner-line": {
+			"patterns": [
+				{
+					"match": "^\\s*ff(?:mpeg|probe) version\\b.*$",
+					"name": "entity.name.section.banner.ffmpeg-log"
 				},
 				{
-					"match": "\\b(h264|h265|hevc|av1|vp9|vp8|aac|mp3|opus|flac|libx264|libx265|libvpx|videotoolbox|nvenc|qsv|avc1|mp4a|hvc1|ac3|eac3|dts|pcm|vorbis|theora|mpeg4|mpeg2|prores|dnxhd|cfhd|rawvideo)\\b",
-					"name": "support.type.codec.ffmpeg-log"
+					"match": "^\\s*(configuration|built with|libavutil|libavcodec|libavformat|libavdevice|libavfilter|libswscale|libswresample|libpostproc)\\b.*$",
+					"name": "support.function.library.ffmpeg-log"
+				},
+				{
+					"match": "\\b(Lavf|Lavc|Lavu|Lavs)\\d+(?:\\.\\d+){1,3}\\b",
+					"name": "support.constant.version.ffmpeg-log"
 				}
 			]
 		},
-		"stream-info": {
-			"match": "#\\d+:\\d+(?:\\(\\w+\\))?",
-			"name": "constant.language.stream.ffmpeg-log"
-		},
-		"time-duration": {
-			"match": "\\b\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?\\b",
-			"name": "constant.numeric.time.ffmpeg-log"
-		},
-		"file-path": {
+
+		"control-hints": {
 			"patterns": [
 				{
-					"match": "(?:from |'|\")?(/[^'\"\\s,]+|[A-Za-z]:\\\\[^'\"\\s,]+)",
-					"captures": {
-						"1": {
-							"name": "string.quoted.path.ffmpeg-log"
-						}
-					}
+					"match": "^\\s*Press\\s+\\[q\\]\\s+to\\s+stop\\b.*$",
+					"name": "meta.prompt.control.ffmpeg-log"
 				},
 				{
-					"match": "'([^']+)'",
-					"captures": {
-						"1": {
-							"name": "string.quoted.single.ffmpeg-log"
-						}
-					}
+					"match": "\\[(?:q|\\?)\\]",
+					"name": "constant.character.escape.control.ffmpeg-log"
 				}
 			]
 		},
-		"numbers": {
+
+		"severity": {
 			"patterns": [
 				{
-					"match": "\\b\\d+x\\d+\\b",
-					"name": "constant.numeric.resolution.ffmpeg-log"
+					"match": "\\b(?:[Ee]rror|[Ff]atal|[Ff]ailed|[Ff]ailure|[Ii]nvalid|[Cc]annot|[Uu]nable|[Nn]ot\\s+[Ff]ound|[Nn]o\\s+[Ss]uch\\s+[Ff]ile|[Pp]ermission\\s+[Dd]enied|[Cc]onversion\\s+[Ff]ailed)\\b",
+					"name": "invalid.illegal.ffmpeg-log"
 				},
 				{
-					"match": "\\b\\d+(\\.\\d+)?\\s*(kb/s|kbits/s|KiB|MiB|GiB|MB|GB|kB|Hz|kHz|x|%)",
-					"name": "constant.numeric.unit.ffmpeg-log"
-				},
-				{
-					"match": "\\b\\d+(\\.\\d+)?\\b",
-					"name": "constant.numeric.ffmpeg-log"
+					"match": "\\b(?:[Ww]arning|[Dd]eprecated|[Oo]verflow|[Nn]on-monotonous|[Uu]nstable)\\b",
+					"name": "markup.changed.warning.ffmpeg-log"
 				}
 			]
 		},
-		"key-value": {
-			"match": "\\b(\\w+)\\s*[:=]\\s*",
-			"captures": {
-				"1": {
-					"name": "variable.other.key.ffmpeg-log"
+
+		"time-and-duration": {
+			"patterns": [
+				{
+					"match": "\\bDuration\\s*:\\s*(?:N\\/A|\\d{1,2}:\\d{2}:\\d{2}(?:[\\.,]\\d+)?)\\b",
+					"name": "constant.numeric.duration.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}(?:[\\.,]\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?\\b",
+					"name": "constant.numeric.timestamp.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d{4}-\\d{2}-\\d{2}\\b|\\b\\d{1,2}-\\d{1,2}-\\d{4}\\b",
+					"name": "constant.other.date.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d{1,2}:\\d{2}:\\d{2}(?:[\\.,]\\d+)?\\b",
+					"name": "constant.numeric.time.ffmpeg-log"
+				},
+				{
+					"match": "\\b(?:start|pts(?:_time)?|dts(?:_time)?|duration|delay)\\s*[:=]\\s*-?\\d+(?:\\.\\d+)?\\b",
+					"name": "constant.numeric.time-value.ffmpeg-log"
+				},
+				{
+					"match": "\\bN\\/A\\b",
+					"name": "constant.language.na.ffmpeg-log"
 				}
-			}
+			]
 		},
-		"brackets": {
-			"match": "\\[([^\\]]+)\\]",
-			"captures": {
-				"1": {
-					"name": "entity.name.section.ffmpeg-log"
+
+		"rates-units": {
+			"patterns": [
+				{
+					"match": "\\b(?:\\d+(?:\\.\\d+)?\\s*fps|\\d+(?:\\.\\d+)?(?:[kKmMgG])?\\s*(?:tbr|tbn|tbc))\\b",
+					"name": "constant.numeric.rate.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d+(?:\\.\\d+)?\\s*(?:Hz|kHz|MHz)\\b",
+					"name": "constant.numeric.frequency.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d+(?:\\.\\d+)?\\s*(?:bits?\\/s|kbits?\\/s|Mbits?\\/s|Gbits?\\/s|bit\\/s|kbit\\/s|Mbit\\/s|Gbit\\/s|kb\\/s|Mb\\/s|Gb\\/s)\\b",
+					"name": "constant.numeric.bitrate.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d+(?:\\.\\d+)?\\s*(?:B|kB|MB|GB|TB|KiB|MiB|GiB|TiB)\\b",
+					"name": "constant.numeric.size.ffmpeg-log"
+				},
+				{
+					"match": "\\b\\d+(?:\\.\\d+)?x\\b",
+					"name": "constant.numeric.speed.ffmpeg-log"
 				}
-			}
+			]
 		},
-		"ffmpeg-libs": {
-			"match": "\\b(libavutil|libavcodec|libavformat|libavdevice|libavfilter|libswscale|libswresample|configuration|built with)\\b",
-			"name": "support.function.library.ffmpeg-log"
+
+		"resolution": {
+			"match": "\\b\\d{2,5}x\\d{2,5}(?:i|p)?\\b",
+			"name": "constant.numeric.resolution.ffmpeg-log"
 		},
-		"pixel-formats": {
-			"match": "\\b(yuv420p|yuv422p|yuv444p|yuvj420p|yuvj422p|yuvj444p|rgb24|bgr24|rgba|bgra|nv12|nv21|p010le|p010be)\\b",
+
+		"codecs": {
+			"match": "\\b(?:h264|h265|hevc|av1|vp9|vp8|mpeg2video|mpeg4|prores|dnxhd|rawvideo|theora|mjpeg|png|gif|aac|ac3|eac3|mp2|mp3|opus|vorbis|flac|alac|truehd|dts(?:-hd)?|pcm_[a-z0-9]+|copy|libx264|libx265|libaom-av1|librav1e|libsvtav1|libvpx(?:-vp9)?|h264_nvenc|hevc_nvenc|av1_nvenc|h264_qsv|hevc_qsv|av1_qsv|h264_videotoolbox|hevc_videotoolbox|av1_videotoolbox)\\b",
+			"name": "support.type.codec.ffmpeg-log"
+		},
+
+		"pix-fmts": {
+			"match": "\\b(?:yuv[aj]?\\d{3}p(?:10|12|14|16)?(?:le|be)?|yuva\\d{3}p(?:10|12|16)?(?:le|be)?|nv12|nv16|nv21|p010(?:le|be)|p016(?:le|be)|rgb24|bgr24|rgba|bgra|argb|abgr|gbrp(?:10|12|14|16)?(?:le|be)?|gray(?:8|10|12|14|16)?(?:le|be)?|fltp|u8p?|s16(?:le|be)?|s24(?:le|be)?|s32(?:le|be)?)\\b",
 			"name": "constant.language.pixel-format.ffmpeg-log"
 		},
-		"profiles": {
-			"match": "\\b(profile|level|High|Main|Baseline|Extended|High10|High422|High444|Constrained|Progressive|progressive|default|native|stereo|mono|fltp|s16|s32|LC|HE|HE-AAC|HE-AACv2)\\b",
-			"name": "storage.type.profile.ffmpeg-log"
+
+		"colors": {
+			"patterns": [
+				{
+					"match": "\\b(?:bt709|bt2020|bt601|smpte170m|smpte240m|bt470bg|bt470m|smpte2084|arib-std-b67|iec61966-2-1|unknown)\\b",
+					"name": "constant.language.colorspace.ffmpeg-log"
+				},
+				{
+					"match": "\\b(tv|pc|limited|full|progressive|interlaced)\\b",
+					"name": "constant.language.color-range.ffmpeg-log"
+				},
+				{
+					"match": "\\b(8-bit|10-bit|12-bit|16-bit)\\b",
+					"name": "constant.language.bitdepth.ffmpeg-log"
+				},
+				{
+					"match": "\\b(4:2:0|4:2:2|4:4:4|4:1:1|4:0:0)\\b",
+					"name": "constant.language.chroma.ffmpeg-log"
+				}
+			]
 		},
-		"percentages": {
-			"match": "\\b\\d+(\\.\\d+)?%",
-			"name": "constant.numeric.percentage.ffmpeg-log"
+
+		"aspect": {
+			"match": "\\b(?:SAR|DAR|PAR)\\s+\\d+:\\d+\\b",
+			"name": "constant.language.aspect-ratio.ffmpeg-log"
 		},
-		"urls": {
-			"match": "https?://[^\\s]+",
-			"name": "markup.underline.link.ffmpeg-log"
-		},
-		"help-message": {
-			"match": "Press \\[q\\] to stop.*",
-			"name": "comment.line.help.ffmpeg-log"
-		},
-		"arrows": {
-			"match": "→|->",
-			"name": "punctuation.separator.arrow.ffmpeg-log"
-		},
-		"cli-flags": {
-			"match": "--[a-zA-Z][a-zA-Z0-9_-]*",
-			"name": "support.constant.flag.ffmpeg-log"
-		},
-		"hex-addresses": {
-			"match": "0x[0-9a-fA-F]+",
-			"name": "constant.numeric.hex.ffmpeg-log"
-		},
+
 		"container-formats": {
-			"match": "\\b(mov|mp4|m4a|3gp|3g2|mj2|mkv|webm|avi|flv|wmv|mpg|mpeg|ts|m2ts|mts|vob|ogg|ogv|m3u8)\\b",
+			"match": "\\b(?:mp4|mov|m4a|3gp|3g2|mj2|matroska|mkv|webm|avi|flv|mpegts|ts|m2ts|ogg|wav|aiff|flac|mp3|hls|dash|image2|segment|concat|nut|srt|ass)\\b",
 			"name": "entity.name.type.container.ffmpeg-log"
 		},
-		"cpu-capabilities": {
-			"match": "\\b(ARMv8|NEON|DotProd|I8MM|SSE|SSE2|SSE3|SSSE3|SSE4|SSE4\\.1|SSE4\\.2|AVX|AVX2|AVX512|FMA|BMI|BMI2|AESNI|capabilities)\\b",
-			"name": "constant.language.cpu.ffmpeg-log"
+
+		"stream-disposition": {
+			"match": "\\((?:default|forced|dub|original|comment|lyrics|karaoke|hearing impaired|visual impaired|captions|descriptions|clean effects|attached pic|timed thumbnails)\\)",
+			"name": "keyword.control.disposition.ffmpeg-log"
 		},
-		"stream-markers": {
-			"match": "\\((default|copy|native|attached pic)\\)",
-			"captures": {
-				"1": {
-					"name": "keyword.control.marker.ffmpeg-log"
+
+		"flags": {
+			"patterns": [
+				{
+					"match": "(?<!\\w)-[a-zA-Z][a-zA-Z0-9_-]*(?::[a-zA-Z0-9_]+)+\\b",
+					"name": "support.constant.flag.specifier.ffmpeg-log"
+				},
+				{
+					"match": "(?<!\\w)--[a-zA-Z][a-zA-Z0-9-]*\\b",
+					"name": "support.constant.flag.long.ffmpeg-log"
+				},
+				{
+					"match": "(?<!\\w)-[a-zA-Z][a-zA-Z0-9_-]{1,}\\b",
+					"name": "support.constant.flag.long.ffmpeg-log"
+				},
+				{
+					"match": "(?<!\\w)-[a-zA-Z](?:\\:[a-zA-Z0-9_]+)?\\b",
+					"name": "support.constant.flag.short.ffmpeg-log"
 				}
-			}
+			]
 		},
-		"dates": {
-			"match": "\\b\\d{1,2}-\\d{1,2}-\\d{4}\\b|\\b\\d{4}-\\d{2}-\\d{2}\\b",
-			"name": "constant.other.date.ffmpeg-log"
+
+		"paths-urls": {
+			"patterns": [
+				{
+					"match": "\\b(?:https?|file|ftp|rtsp|rtmp|rtmps|udp|tcp|srt)://[^\\s'\"<>]+",
+					"name": "markup.underline.link.ffmpeg-log"
+				},
+				{
+					"match": "(?:^|\\s)([A-Za-z]:\\\\[^\\s,'\"<>]+)",
+					"captures": { "1": { "name": "string.unquoted.path.ffmpeg-log" } }
+				},
+				{
+					"match": "(?:^|\\s)(/[^\\s,'\"<>]+)",
+					"captures": { "1": { "name": "string.unquoted.path.ffmpeg-log" } }
+				},
+				{
+					"match": "\\b[^\\s'\"<>]+\\.(?:mp4|mov|m4v|m4a|mkv|webm|avi|flv|mp3|aac|wav|flac|ts|m2ts|srt|ass|vtt|jpg|jpeg|png|gif)\\b",
+					"name": "string.unquoted.path.ffmpeg-log"
+				}
+			]
 		},
-		"timestamps": {
-			"match": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})?",
-			"name": "constant.numeric.timestamp.ffmpeg-log"
+
+		"hex": {
+			"patterns": [
+				{ "match": "\\b0x[0-9a-fA-F]+\\b", "name": "constant.numeric.hex.ffmpeg-log" },
+				{
+					"match": "\\b(?:avc1|hev1|hvc1|av01|vp09|mp4a|ac-3|ec-3|dtsc|opus|fLaC)\\b",
+					"name": "constant.language.fourcc.ffmpeg-log"
+				}
+			]
 		},
-		"ffmpeg-versions": {
-			"match": "\\b(Lavf|Lavc|Lavs|Lavu)\\d+(\\.\\d+)+\\b",
-			"name": "support.constant.version.ffmpeg-log"
+
+		"quoted": {
+			"patterns": [
+				{ "match": "\"([^\"\\\\]|\\\\.)*\"", "name": "string.quoted.double.ffmpeg-log" },
+				{ "match": "'([^'\\\\]|\\\\.)*'", "name": "string.quoted.single.ffmpeg-log" }
+			]
 		},
-		"chroma-subsampling": {
-			"match": "\\b(4:4:4|4:2:2|4:2:0|4:1:1|4:0:0)\\b",
-			"name": "constant.language.chroma.ffmpeg-log"
+
+		"fallback-kv": {
+			"patterns": [
+				{
+					"match": "\\b([A-Za-z_][\\w.-]*)\\s*(:|=)\\s*",
+					"captures": {
+						"1": { "name": "variable.other.key.ffmpeg-log" },
+						"2": { "name": "punctuation.separator.key-value.ffmpeg-log" }
+					}
+				}
+			]
 		},
-		"bit-depth": {
-			"match": "\\b(8-bit|10-bit|12-bit|16-bit)\\b",
-			"name": "constant.language.bitdepth.ffmpeg-log"
+
+		"percent": {
+			"match": "(?<!\\w)\\d+(?:\\.\\d+)?%",
+			"name": "constant.numeric.percentage.ffmpeg-log"
 		},
-		"color-spaces": {
-			"match": "\\b(bt709|bt2020|bt601|smpte170m|smpte240m|bt470bg|bt470m|iec61966-2-1|iec61966-2-4|tv|pc|limited|full)\\b",
-			"name": "constant.language.colorspace.ffmpeg-log"
-		},
-		"aspect-ratios": {
-			"match": "\\b(SAR|DAR|PAR)\\s+\\d+:\\d+",
-			"name": "constant.language.aspect.ffmpeg-log"
-		},
-		"na-values": {
-			"match": "\\bN/A\\b",
-			"name": "comment.na.ffmpeg-log"
-		},
-		"fourcc-codes": {
-			"match": "\\b(avc1|hev1|hvc1|mp4a|mp4v|av01|vp09|ac-3|ec-3|dtsc|dtsh|dtsl|dtse|opus|fLaC|alac|sowt|twos|alaw|ulaw|lpcm|apch|apcn|apcs|apco|ap4h|ap4x)\\b",
-			"name": "constant.language.fourcc.ffmpeg-log"
+
+		"numbers-soft": {
+			"match": "\\b-?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b",
+			"name": "constant.numeric.ffmpeg-log"
 		}
 	}
 }
