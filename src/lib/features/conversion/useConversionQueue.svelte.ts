@@ -107,7 +107,8 @@ export function createConversionQueue(callbacks: ConversionCallbacks) {
 			(f) =>
 				f.isSelectedForConversion &&
 				f.status !== FileStatus.CONVERTING &&
-				f.status !== FileStatus.QUEUED
+				f.status !== FileStatus.QUEUED &&
+				f.status !== FileStatus.COMPLETED
 		);
 
 		if (pendingFiles.length === 0) return;

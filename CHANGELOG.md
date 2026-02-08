@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Queue Logic:** Resolved an issue where completed files would be re-queued for conversion when restarting the batch. The queue now explicitly ignores files with a "Completed" status.
+- **Titlebar UX:** The "Start Conversion" button is now disabled when all selected files have already been successfully processed, providing better visual feedback and preventing accidental re-runs.
+
 ### Added
 - **Hardware Decoding Support:** Integrated GPU-accelerated video decoding for input files using NVIDIA CUDA and Apple VideoToolbox. This reduces CPU load and improves conversion speed by offloading the decoding phase to the hardware.
 - **Log Syntax Highlighting:** Integrated Shiki highlighting engine into `LogsView` for improved readability of FFmpeg output.
