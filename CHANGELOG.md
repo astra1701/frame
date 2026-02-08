@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Log Syntax Highlighting:** Integrated Shiki highlighting engine into `LogsView` for improved readability of FFmpeg output.
 - **Custom Log Language:** Developed a comprehensive TextMate grammar for FFmpeg logs, featuring specialized highlighting for codecs, timestamps, file paths, CPU capabilities, and conversion phases (DECODE/ENCODE/UPSCALE).
 
+### Changed
+- **Settings Accessibility:** Users can now switch between all configuration tabs (Source, Output, Video, etc.) even after a file has been converted, while maintaining the locked state of individual settings.
+
 ## [0.20.0] - 2026-02-08
 
 ### Added
