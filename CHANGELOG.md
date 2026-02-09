@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dialog Directory Scope:** Folder picker permission scopes now respect the `recursive` flag when granting Tauri directory access, avoiding unintentionally broad directory grants.
 - **Native Dialog Kind Contract:** Backend dialog kind parsing now explicitly accepts `question`, matching the frontend `askNativeDialog` type contract.
 - **ML Upscale FPS Timeline:** Upscale re-encode now always reads extracted PNG frames at source FPS, while optional target FPS conversion is applied only on output (`-r`), preventing unintended playback speed changes.
+- **ML Upscale Metadata Preserve:** In upscale mode, `metadata.mode = preserve` now maps metadata from the original source input (`-map_metadata 1`) so source tags are retained as expected.
 
 ## [0.21.1] - 2026-02-08
 

@@ -356,6 +356,8 @@ pub async fn run_upscale_worker(
             add_metadata_flags(&mut enc_args, &task.config.metadata);
         }
         MetadataMode::Preserve => {
+            enc_args.push("-map_metadata".to_string());
+            enc_args.push("1".to_string());
             add_metadata_flags(&mut enc_args, &task.config.metadata);
         }
     }
