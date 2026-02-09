@@ -149,6 +149,20 @@ mod tests {
         );
         assert_eq!(custom, "/Users/hex/Videos/final_render.mp4");
 
+        let nested = build_output_path(
+            "/Users/hex/Videos/clip.mov",
+            "mp4",
+            Some("../escape/render".into()),
+        );
+        assert_eq!(nested, "/Users/hex/Videos/render.mp4");
+
+        let absolute = build_output_path(
+            "/Users/hex/Videos/clip.mov",
+            "mp4",
+            Some("/tmp/pwned.mp4".into()),
+        );
+        assert_eq!(absolute, "/Users/hex/Videos/pwned.mp4");
+
         let default = build_output_path("/tmp/sample.mov", "mp4", None);
         assert_eq!(default, "/tmp/sample.mov_converted.mp4");
     }

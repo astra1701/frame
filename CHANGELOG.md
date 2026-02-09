@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Runtime Log Highlighting Dependencies:** Moved `shiki` from `devDependencies` to `dependencies` and added direct runtime dependency on `@shikijs/themes`, so packaged builds include required log-highlighting modules.
+- **Output Name Path Safety:** Hardened output name handling on both frontend and backend so custom names cannot escape the source directory via absolute paths or traversal segments.
+- **Error Event Duplication:** Removed duplicate `conversion-error` emission from the worker path so failures are reported once through manager flow.
+- **Settings Persistence Race:** Prevented settings write-back before initial hydration completes, fixing startup-time overwrites of saved preferences.
+- **Subtitle Burn Path Escaping:** Expanded FFmpeg subtitle filter escaping for special characters (including quotes and bracket/comma tokens) to avoid burn-in command breakage on valid file paths.
+- **Localization Consistency:** Replaced remaining hardcoded UI strings in logs/source panels with i18n keys and synced locale dictionaries.
 
 ## [0.21.1] - 2026-02-08
 

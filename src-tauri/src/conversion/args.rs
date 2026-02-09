@@ -174,15 +174,30 @@ pub fn add_metadata_flags(args: &mut Vec<String>, metadata: &MetadataConfig) {
     }
 }
 
+fn sanitize_output_name(raw: &str) -> Option<String> {
+    let trimmed = raw.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+
+    let candidate = trimmed
+        .rsplit(|ch| ch == '/' || ch == '\\')
+        .next()
+        .map(str::trim)
+        .unwrap_or("");
+
+    if candidate.is_empty() || candidate == "." || candidate == ".." {
+        return None;
+    }
+
+    Some(candidate.to_string())
+}
+
 pub fn build_output_path(file_path: &str, container: &str, output_name: Option<String>) -> String {
-    if let Some(custom) = output_name.and_then(|name| {
-        let trimmed = name.trim();
-        if trimmed.is_empty() {
-            None
-        } else {
-            Some(trimmed.to_string())
-        }
-    }) {
+    if let Some(custom) = output_name
+        .as_deref()
+        .and_then(sanitize_output_name)
+    {
         let input_path = Path::new(file_path);
         let mut output: PathBuf = match input_path.parent() {
             Some(parent) if !parent.as_os_str().is_empty() => parent.to_path_buf(),
