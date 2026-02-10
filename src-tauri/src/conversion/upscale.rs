@@ -177,14 +177,21 @@ pub(crate) async fn validate_upscale_runtime(
         let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
         let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
         let details = if !stderr.is_empty() { stderr } else { stdout };
-        return Err(ConversionError::InvalidInput(format!(
-            "Upscaler preflight check failed: {}",
-            if details.is_empty() {
-                "unknown error".to_string()
-            } else {
-                details
-            }
-        )));
+        let details_lc = details.to_ascii_lowercase();
+        let looks_like_help = details_lc.contains("usage: realesrgan-ncnn-vulkan")
+            || details_lc.contains("-i input-path")
+            || details_lc.contains("-o output-path");
+
+        if !looks_like_help {
+            return Err(ConversionError::InvalidInput(format!(
+                "Upscaler preflight check failed: {}",
+                if details.is_empty() {
+                    "unknown error".to_string()
+                } else {
+                    details
+                }
+            )));
+        }
     }
 
     Ok(())
