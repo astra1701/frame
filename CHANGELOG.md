@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **AI Upscaling Setup:** Updated documentation across all supported languages to guide users through Real-ESRGAN asset installation.
+- **Upscaling Capability Detection:** The app now automatically detects the presence of the `realesrgan-ncnn-vulkan` sidecar and required ML models, gating UI controls accordingly.
+
+### Fixed
+
+- **AI Upscale Progress:** Improved progress accuracy by driving updates from per-frame completion logs and hardening calculations for videos where total frame counts cannot be pre-determined.
+- **Upscaler Preflight:** Resolved an issue where the AI upscaler preflight check would fail on some systems due to non-zero exit codes during help-text verification.
+- **Log Highlighting (CSP):** Updated Content Security Policy to allow inline styles, fixing Shiki-based runtime log highlighting in production builds.
+- **Upscale Mode Validation:** Added strict backend validation for ML upscale modes to prevent invalid configurations from entering the processing queue.
+- **ML Control Reactivity:** Fixed a UI bug where ML upscale buttons remained enabled even if runtime dependencies were missing.
+
 ## [0.21.2] - 2026-02-09
 
 ### Fixed
