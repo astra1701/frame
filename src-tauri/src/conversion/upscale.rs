@@ -119,16 +119,89 @@ pub(crate) fn build_upscale_encode_args(
     enc_args
 }
 
+pub(crate) fn resolve_upscale_mode(
+    mode: &str,
+) -> Result<(&'static str, &'static str), ConversionError> {
+    match mode {
+        "esrgan-2x" => Ok(("2", "realesr-animevideov3-x2")),
+        "esrgan-4x" => Ok(("4", "realesr-animevideov3-x4")),
+        _ => Err(ConversionError::InvalidInput(format!(
+            "Invalid upscale mode: {}",
+            mode
+        ))),
+    }
+}
+
+pub(crate) async fn validate_upscale_runtime(
+    app: &AppHandle,
+    mode: &str,
+) -> Result<(), ConversionError> {
+    let (_, model_name) = resolve_upscale_mode(mode)?;
+
+    let models_path = app
+        .path()
+        .resolve("resources/models", BaseDirectory::Resource)
+        .map_err(|e| ConversionError::Shell(e.to_string()))?;
+
+    let model_param = models_path.join(format!("{}.param", model_name));
+    let model_bin = models_path.join(format!("{}.bin", model_name));
+
+    if !model_param.is_file() || !model_bin.is_file() {
+        return Err(ConversionError::InvalidInput(format!(
+            "ML upscaling models are missing for '{}'. Expected files in '{}'. Run `bun run setup:upscaler` and rebuild the app.",
+            mode,
+            models_path.to_string_lossy()
+        )));
+    }
+
+    let output = app
+        .shell()
+        .sidecar("realesrgan-ncnn-vulkan")
+        .map_err(|e| {
+            ConversionError::InvalidInput(format!(
+                "Upscaler sidecar is unavailable: {}. Run `bun run setup:upscaler` and rebuild the app.",
+                e
+            ))
+        })?
+        .args(["-h"])
+        .output()
+        .await
+        .map_err(|e| {
+            ConversionError::InvalidInput(format!(
+                "Upscaler sidecar failed to start: {}. Verify binary permissions and system dependencies (Vulkan/Metal).",
+                e
+            ))
+        })?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+        let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+        let details = if !stderr.is_empty() { stderr } else { stdout };
+        return Err(ConversionError::InvalidInput(format!(
+            "Upscaler preflight check failed: {}",
+            if details.is_empty() {
+                "unknown error".to_string()
+            } else {
+                details
+            }
+        )));
+    }
+
+    Ok(())
+}
+
 pub async fn run_upscale_worker(
     app: AppHandle,
     tx: mpsc::Sender<ManagerMessage>,
     task: ConversionTask,
 ) -> Result<(), ConversionError> {
-    let (scale, model_name) = match task.config.ml_upscale.as_deref() {
-        Some("esrgan-2x") => ("2", "realesr-animevideov3-x2"),
-        Some("esrgan-4x") => ("4", "realesr-animevideov3-x4"),
-        _ => return Err(ConversionError::InvalidInput("Invalid upscale mode".into())),
-    };
+    let mode = task
+        .config
+        .ml_upscale
+        .as_deref()
+        .ok_or_else(|| ConversionError::InvalidInput("Invalid upscale mode".into()))?;
+
+    let (scale, model_name) = resolve_upscale_mode(mode)?;
 
     let output_path = build_output_path(
         &task.file_path,
