@@ -467,23 +467,6 @@ pub async fn run_upscale_worker(
                     .map(|c| c.is_ascii_digit())
                     .unwrap_or(false);
 
-            if is_percentage_line {
-                let percentage = trimmed.trim_end_matches('%').trim().parse::<f64>().ok();
-                if let Some(percentage) = percentage {
-                    let progress = 5.0 + (percentage.clamp(0.0, 100.0) / 100.0) * 85.0;
-                    if progress > last_upscale_progress {
-                        last_upscale_progress = progress;
-                        let _ = app_clone.emit(
-                            "conversion-progress",
-                            ProgressPayload {
-                                id: id_clone.clone(),
-                                progress: progress.min(90.0),
-                            },
-                        );
-                    }
-                }
-            }
-
             if !is_percentage_line && !trimmed.is_empty() {
                 let _ = app_clone.emit(
                     "conversion-log",
