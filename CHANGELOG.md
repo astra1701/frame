@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-02-11
+
 ### Added
 
 - **AI Upscaling Setup:** Updated documentation across all supported languages to guide users through Real-ESRGAN asset installation.
@@ -540,7 +542,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic media metadata probing via FFprobe.
 - Preset-based configuration system.
 
-[Unreleased]: https://github.com/66HEX/frame/compare/0.21.2...HEAD
+[Unreleased]: https://github.com/66HEX/frame/compare/0.22.0...HEAD
+[0.22.0]: https://github.com/66HEX/frame/compare/0.21.2...0.22.0
 [0.21.2]: https://github.com/66HEX/frame/compare/0.21.1...0.21.2
 [0.21.1]: https://github.com/66HEX/frame/compare/0.21.0...0.21.1
 [0.21.0]: https://github.com/66HEX/frame/compare/0.20.0...0.21.0
