@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-02-12
+
 ### Added
 
 - **GIF Workflow:** Added full GIF output support across frontend and backend, including container selection, dedicated GIF settings UI (palette colors, dither mode, loop count), strict compatibility normalization, backend validation, and FFmpeg palette pipeline generation.
@@ -557,7 +559,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic media metadata probing via FFprobe.
 - Preset-based configuration system.
 
-[Unreleased]: https://github.com/66HEX/frame/compare/0.22.0...HEAD
+[Unreleased]: https://github.com/66HEX/frame/compare/0.23.0...HEAD
+[0.23.0]: https://github.com/66HEX/frame/compare/0.22.0...0.23.0
 [0.22.0]: https://github.com/66HEX/frame/compare/0.21.2...0.22.0
 [0.21.2]: https://github.com/66HEX/frame/compare/0.21.1...0.21.2
 [0.21.1]: https://github.com/66HEX/frame/compare/0.21.0...0.21.1
